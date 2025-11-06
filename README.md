@@ -100,7 +100,7 @@ agromart-frontend/
 
 1. **Clone o repositório**
 ```bash
-git clone <repository-url>
+git clone https://github.com/AgroMart/interface-web.git
 ```
 
 2. **Instale as dependências**
