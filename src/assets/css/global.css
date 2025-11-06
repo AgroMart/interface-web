@@ -1,0 +1,204 @@
+/* Estilos globais para acessibilidade e usabilidade */
+
+/* Reset básico */
+* {
+  box-sizing: border-box;
+}
+
+/* Fonte base maior para melhor legibilidade */
+html {
+  font-size: 18px; /* Base maior que os 16px padrão */
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fafafa;
+}
+
+/* Melhorar contraste de foco para acessibilidade */
+*:focus {
+  outline: 3px solid #4CAF50 !important;
+  outline-offset: 2px;
+}
+
+/* Botões com área de toque maior */
+.v-btn {
+  min-height: 48px !important;
+  min-width: 48px !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+}
+
+/* Cards com espaçamento adequado */
+.v-card {
+  margin-bottom: 16px;
+}
+
+.v-card-title {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  padding: 16px !important;
+}
+
+.v-card-text {
+  font-size: 1rem !important;
+  padding: 16px !important;
+}
+
+/* Campos de entrada maiores */
+.v-text-field .v-field__input {
+  min-height: 56px !important;
+  font-size: 1rem !important;
+}
+
+.v-text-field .v-field__append-inner,
+.v-text-field .v-field__prepend-inner {
+  padding-top: 16px !important;
+}
+
+/* Labels mais visíveis */
+.v-label {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+}
+
+/* Ícones maiores para melhor visualização */
+.v-icon {
+  font-size: 1.5rem !important;
+}
+
+/* Navegação inferior com área de toque adequada */
+.bottom-navigation .v-btn {
+  min-height: 64px !important;
+  flex-direction: column !important;
+}
+
+.bottom-navigation .v-icon {
+  font-size: 1.75rem !important;
+  margin-bottom: 4px !important;
+}
+
+.bottom-navigation .v-btn__content {
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+}
+
+/* Melhorar legibilidade de textos */
+.text-caption {
+  font-size: 0.875rem !important;
+}
+
+.text-body-1 {
+  font-size: 1rem !important;
+}
+
+.text-body-2 {
+  font-size: 0.875rem !important;
+}
+
+.text-h6 {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+}
+
+.text-h5 {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+}
+
+/* Espaçamento consistente */
+.pa-safe {
+  padding: 16px !important;
+}
+
+.ma-safe {
+  margin: 16px !important;
+}
+
+/* Loading overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Indicador de conexão */
+.connection-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #FF9800;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  font-size: 0.875rem;
+  z-index: 1000;
+}
+
+.connection-indicator.online {
+  background-color: #4CAF50;
+}
+
+/* Animações suaves */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  html {
+    font-size: 16px;
+  }
+  
+  .v-card-title {
+    font-size: 1.125rem !important;
+  }
+  
+  .v-btn {
+    min-height: 44px !important;
+  }
+}
+
+/* Alto contraste para melhor acessibilidade */
+@media (prefers-contrast: high) {
+  body {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  .v-card {
+    border: 2px solid #000000;
+  }
+  
+  .v-btn {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Redução de movimento para usuários sensíveis */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
