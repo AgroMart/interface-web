@@ -1,8 +1,8 @@
-# AgroMart Frontend - Interface Vue.js para CSA
+# Interface Web para o Agromart
 
 ## Visão Geral
 
-A nova interface web do Agromart é uma aplicação web progressiva (PWA) desenvolvida em Vue.js com Vuetify, especialmente projetada para agricultores que participam de Comunidades que Sustentam a Agricultura (CSA). A interface foi criada com foco na simplicidade, acessibilidade e usabilidade para usuários com baixo letramento digital, priorizando o acesso via dispositivos móveis.
+A nova interface web do Agromart é uma aplicação web progressiva (PWA) desenvolvida em Vue.js com Vuetify, especialmente projetada para agricultores que participam de Comunidades que Sustentam a Agricultura (CSA). Ela permite que os usuários gerenciem seus negócios por meio de uma camada visual amigável. A interface foi criada com foco na simplicidade, acessibilidade e usabilidade para usuários com baixo letramento digital, priorizando o acesso via dispositivos móveis.
 
 ## Características Principais
 
