@@ -79,17 +79,33 @@
 
     <!-- Ações do card -->
     <v-card-actions class="pa-4 pt-0">
-      <v-btn
-        color="primary"
-        variant="outlined"
-        block
-        size="large"
-        :disabled="basket.quantidade === 0"
-        @click.stop="$emit('edit', basket)"
-      >
-        <v-icon class="mr-2">mdi-pencil</v-icon>
-        Editar
-      </v-btn>
+      <v-row>
+        <v-col cols="6" class="pa-1">
+          <v-btn
+            color="primary"
+            variant="outlined"
+            block
+            size="large"
+            :disabled="basket.quantidade === 0"
+            @click.stop="$emit('checkout', basket)"
+          >
+            <v-icon class="mr-2">mdi-truck-delivery</v-icon>
+            Pedir
+          </v-btn>
+        </v-col>
+        <v-col cols="6" class="pa-1">
+          <v-btn
+            color="secondary"
+            variant="outlined"
+            block
+            size="large"
+            @click.stop="$emit('edit', basket)"
+          >
+            <v-icon class="mr-2">mdi-pencil</v-icon>
+            Editar
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-card-actions>
   </v-card>
 </template>
@@ -105,10 +121,10 @@ export default {
       required: true
     }
   },
-  emits: ['click', 'edit'],
+  emits: ['click', 'edit', 'checkout'],
   setup(props) {
     const basketImage = computed(() => {
-      const images = props.basket?.imagem?.data
+      const images = props.basket.imagem?.data
       if (images && images.length > 0) {
         const image = images[0]
         // Se for URL completa, usar diretamente

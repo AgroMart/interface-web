@@ -102,10 +102,22 @@
           <BasketCard
             :basket="basket"
             @click="viewBasket"
-            @edit="editBasket"
+            @edit="editBasket" @checkout="handleCheckout"
           />
         </v-col>
       </v-row>
+
+      <!-- Dialog de seleção de entrega -->
+      <v-dialog
+        v-model="showDeliveryDialog"
+        max-width="500"
+        persistent
+      >
+        <DeliverySelection
+          @proceed="handleDeliveryProceed"
+          @cancel="handleDeliveryCancel"
+        />
+      </v-dialog>
 
       <!-- Dialog de criação/edição de cesta -->
       <v-dialog
@@ -130,6 +142,7 @@ import BasketCard from '../components/BasketCard.vue'
 import LoadingCard from '../components/LoadingCard.vue'
 import EmptyState from '../components/EmptyState.vue'
 import BasketForm from '../components/BasketForm.vue'
+import DeliverySelection from '../components/DeliverySelection.vue'
 import { useBasketStore } from '../store/baskets'
 
 export default {
@@ -139,7 +152,8 @@ export default {
     BasketCard,
     LoadingCard,
     EmptyState,
-    BasketForm
+    BasketForm,
+    DeliverySelection
   },
   setup() {
     const basketStore = useBasketStore()
@@ -150,6 +164,8 @@ export default {
     const sortBy = ref('price')
     const showCreateDialog = ref(false)
     const selectedBasket = ref(null)
+    const showDeliveryDialog = ref(false)
+    const deliveryDetails = ref(null)
 
     // Opções de filtro
     const statusOptions = [
@@ -212,6 +228,27 @@ export default {
     })
 
     // Ações
+    const handleCheckout = (basket) => {
+      selectedBasket.value = basket;
+      showDeliveryDialog.value = true;
+    };
+
+    const handleDeliveryProceed = (details) => {
+      deliveryDetails.value = details;
+      showDeliveryDialog.value = false;
+      console.log('Detalhes da Entrega:', details);
+      console.log('Cesta para Checkout:', selectedBasket.value);
+      basketStore.showSnackbar('Seleção de entrega concluída. Próxima etapa: Finalização do Pedido.', 'success');
+      selectedBasket.value = null;
+      deliveryDetails.value = null;
+    };
+
+    const handleDeliveryCancel = () => {
+      showDeliveryDialog.value = false;
+      selectedBasket.value = null;
+      deliveryDetails.value = null;
+    };
+
     const viewBasket = (basket) => {
       console.log('Ver cesta:', basket)
       // Implementar visualização detalhada
@@ -262,7 +299,12 @@ export default {
       viewBasket,
       editBasket,
       handleSaveBasket,
-      handleCancelBasket
+      handleCancelBasket,
+      handleCheckout,
+      handleDeliveryProceed,
+      handleDeliveryCancel,
+      showDeliveryDialog,
+      deliveryDetails
     }
   }
 }

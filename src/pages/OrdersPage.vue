@@ -106,6 +106,25 @@
 
             <v-divider class="mb-3"></v-divider>
 
+            <!-- Informações de Entrega -->
+            <div class="mb-3">
+              <div class="d-flex align-center mb-2">
+                <v-icon size="small" class="mr-2" color="grey-darken-1">mdi-truck-delivery</v-icon>
+                <span class="text-body-1 font-weight-medium">
+                  Entrega: {{ getDeliveryTypeText(order.deliveryType) }}
+                </span>
+              </div>
+              
+              <div class="d-flex align-center">
+                <v-icon size="small" class="mr-2" color="grey-darken-1">mdi-calendar-clock</v-icon>
+                <span class="text-body-2 text-grey-darken-1">
+                  Previsão: {{ formatDate(order.deliveryPrediction) }}
+                </span>
+              </div>
+            </div>
+
+            <v-divider class="mb-3"></v-divider>
+
             <!-- Informações do cliente -->
             <div class="mb-3">
               <div class="d-flex align-center mb-2">
@@ -251,6 +270,8 @@ export default {
         id: '001',
         createdAt: '2025-01-15T10:30:00Z',
         status: 'pending',
+        deliveryType: 'csa',
+        deliveryPrediction: '2025-01-17T10:00:00Z',
         customer: {
           name: 'Maria Silva',
           phone: '(61) 99999-9999',
@@ -266,6 +287,8 @@ export default {
         id: '002',
         createdAt: '2025-01-14T15:45:00Z',
         status: 'confirmed',
+        deliveryType: 'home',
+        deliveryPrediction: '2025-01-16T14:00:00Z',
         customer: {
           name: 'João Santos',
           phone: '(61) 88888-8888',
@@ -280,6 +303,8 @@ export default {
         id: '003',
         createdAt: '2025-01-13T09:15:00Z',
         status: 'completed',
+        deliveryType: 'home',
+        deliveryPrediction: '2025-01-13T12:00:00Z',
         customer: {
           name: 'Ana Costa',
           phone: '(61) 77777-7777',
@@ -358,6 +383,14 @@ export default {
       return filtered
     })
 
+    const getDeliveryTypeText = (type) => {
+      const texts = {
+        csa: 'Ponto de Coleta (CSA)',
+        home: 'Entrega em Residência'
+      }
+      return texts[type] || 'Não Informado'
+    }
+
     // Funções auxiliares
     const formatDate = (dateString) => {
       const date = new Date(dateString)
@@ -432,6 +465,7 @@ export default {
       formatPrice,
       getStatusColor,
       getStatusText,
+      getDeliveryTypeText,
       updateOrderStatus,
       viewOrderDetails
     }

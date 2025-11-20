@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 // import { apiService } from '../services/api'
-import { productsService } from '../services/productsServices'
+import { productsService } from '../services/products'
 import { useAppStore } from './app'
 
 export const useProductStore = defineStore('products', {
