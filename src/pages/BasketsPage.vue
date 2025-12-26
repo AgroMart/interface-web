@@ -144,6 +144,7 @@ import EmptyState from '../components/EmptyState.vue'
 import BasketForm from '../components/BasketForm.vue'
 import DeliverySelection from '../components/DeliverySelection.vue'
 import { useBasketStore } from '../store/baskets'
+import { useAppStore } from '../store/app'
 
 export default {
   name: 'BasketsPage',
@@ -157,11 +158,12 @@ export default {
   },
   setup() {
     const basketStore = useBasketStore()
+    const appStore = useAppStore()
     
     // Estado local
     const searchQuery = ref('')
     const statusFilter = ref('all')
-    const sortBy = ref('price')
+    const sortBy = ref('price_desc')
     const showCreateDialog = ref(false)
     const selectedBasket = ref(null)
     const showDeliveryDialog = ref(false)
@@ -238,7 +240,7 @@ export default {
       showDeliveryDialog.value = false;
       console.log('Detalhes da Entrega:', details);
       console.log('Cesta para Checkout:', selectedBasket.value);
-      basketStore.showSnackbar('Seleção de entrega concluída. Próxima etapa: Finalização do Pedido.', 'success');
+      appStore.showSnackbar('Seleção de entrega concluída. Próxima etapa: Finalização do Pedido.', 'success')
       selectedBasket.value = null;
       deliveryDetails.value = null;
     };

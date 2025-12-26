@@ -185,7 +185,7 @@ export default {
     // Carregar dados da cesta para edição
     const loadBasketData = () => {
       if (props.basket) {
-        const attrs = props.basket.attributes
+        const attrs = props.basket
         formData.value = {
           descricao: attrs.descricao || '',
           valor: attrs.valor || null,
