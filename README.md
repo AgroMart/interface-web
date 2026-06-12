@@ -252,7 +252,7 @@ VUE_APP_ENVIRONMENT=production
 
 ## Licença
 
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+Este projeto está licenciado sob a licença GNU General Public License v3 (GPL-3.0). Veja o arquivo LICENSE para mais detalhes.
 
 ---
 
