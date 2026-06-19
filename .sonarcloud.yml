@@ -1,0 +1,16 @@
+sonarQubeUrl: https://sonarcloud.io
+
+coverage:
+  enabled: true
+  threshold:
+    - type: coverage
+      percentage: 80
+      metric: lines
+
+test:
+  exclusions:
+    - '**/*.spec.js'
+    - '**/*.test.js'
+    - 'node_modules/**'
+    - 'dist/**'
+    - 'coverage/**'
