@@ -27,22 +27,7 @@ jobs:
       
       - run: npm run build
 
-      - name: Validate Sonar credentials
-        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
-        run: |
-          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
-            echo "SONAR_TOKEN is empty or unavailable for this run."
-            echo "Check repository secret SONAR_TOKEN (or PR from fork restrictions)."
-            exit 1
-          fi
-          if [ -z "${{ vars.SONAR_ORGANIZATION }}" ]; then
-            echo "SONAR_ORGANIZATION is empty."
-            echo "Set repository variable SONAR_ORGANIZATION in Settings > Secrets and variables > Actions."
-            exit 1
-          fi
-
       - name: SonarCloud Scan
-        if: ${{ secrets.SONAR_TOKEN != '' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         uses: SonarSource/sonarqube-scan-action@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
