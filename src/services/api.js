@@ -1,8 +1,17 @@
 import axios from 'axios'
 
-// URL base da API Strapi - pode ser configurada via variável de ambiente
-const API_BASE_URL = process.env.VUE_APP_STRAPI_API_URL || 'http://localhost:1337/api'
+const getApiBaseUrl = () => {
+  if (process.env.VUE_APP_STRAPI_API_URL) {
+    return process.env.VUE_APP_STRAPI_API_URL;
+  }
+  if (process.env.VUE_APP_STRAPI_URL) {
+    const rawUrl = process.env.VUE_APP_STRAPI_URL.replace(/\/+$/, '');
+    return rawUrl.endsWith('/api') ? rawUrl : `${rawUrl}/api`;
+  }
+  return 'http://localhost:1337/api';
+};
 
+const API_BASE_URL = getApiBaseUrl();
 
 // Instância do Axios configurada
 const api = axios.create({
@@ -11,7 +20,7 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
   timeout: 10000, // 10 segundos de timeout para conexões lentas
-})
+});
 
 // Adicionar token JWT nas requisições
 api.interceptors.request.use(

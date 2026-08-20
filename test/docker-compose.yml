@@ -1,0 +1,18 @@
+services:
+  web-heroku-sim:
+    build:
+      context: ..
+      dockerfile: test/Dockerfile.heroku-sim
+      args:
+        VUE_APP_STRAPI_URL: http://localhost:1337
+    container_name: agromart_web_heroku_sim
+    ports:
+      - '8085:8080'
+    environment:
+      PORT: 8080
+      NODE_ENV: production
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
+      interval: 5s
+      timeout: 3s
+      retries: 5

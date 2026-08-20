@@ -1,0 +1,38 @@
+# Simula o pipeline de build e runtime do Heroku com alta fidelidade para o Frontend Vue 3
+# Base: Node 18 Slim
+FROM node:18-slim
+
+WORKDIR /app
+
+# Instalar curl para healthchecks
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+
+# Copiar arquivos do projeto para o container
+COPY package.json package-lock.json* ./
+COPY vue.config.js* ./
+COPY babel.config.js* ./
+COPY public ./public
+COPY src ./src
+COPY server.js ./
+
+# Argumento de build para URL da API Strapi (injetada nas Config Vars do Heroku)
+ARG VUE_APP_STRAPI_URL=http://localhost:1337
+ENV VUE_APP_STRAPI_URL=${VUE_APP_STRAPI_URL}
+
+# Simular: npm install (como o buildpack do Heroku faz)
+RUN npm install
+
+# Simular: heroku-postbuild (executa vue-cli-service build gerando a pasta dist/)
+RUN npm run heroku-postbuild
+
+# Simular: prune devDependencies (como o Heroku faz após o build)
+RUN npm prune --production
+
+# Configuração de runtime
+ENV NODE_ENV=production
+ENV PORT=8080
+
+EXPOSE 8080
+
+# Simular Procfile: web: node server.js
+CMD ["node", "server.js"]
