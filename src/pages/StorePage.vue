@@ -18,19 +18,32 @@
           :loading="saving"
           @click="saveStore"
         >
-          <v-icon class="mr-2">mdi-content-save</v-icon>
+          <v-icon class="mr-2">
+            mdi-content-save
+          </v-icon>
           Salvar
         </v-btn>
       </div>
 
       <!-- Formulário da loja -->
-      <v-form ref="form" v-model="valid">
+      <v-form
+        ref="form"
+        v-model="valid"
+      >
         <v-row>
           <!-- Informações básicas -->
-          <v-col cols="12" md="8">
-            <v-card class="mb-4" elevation="2">
+          <v-col
+            cols="12"
+            md="8"
+          >
+            <v-card
+              class="mb-4"
+              elevation="2"
+            >
               <v-card-title class="text-h6 font-weight-bold">
-                <v-icon class="mr-2">mdi-store</v-icon>
+                <v-icon class="mr-2">
+                  mdi-store
+                </v-icon>
                 Informações Básicas
               </v-card-title>
               
@@ -44,7 +57,7 @@
                       variant="outlined"
                       density="comfortable"
                       required
-                    ></v-text-field>
+                    />
                   </v-col>
 
                   <v-col cols="12">
@@ -57,10 +70,13 @@
                       rows="4"
                       counter="500"
                       :rules="descriptionRules"
-                    ></v-textarea>
+                    />
                   </v-col>
 
-                  <v-col cols="12" md="6">
+                  <v-col
+                    cols="12"
+                    md="6"
+                  >
                     <v-text-field
                       v-model="storeData.contato"
                       label="Telefone de contato *"
@@ -69,17 +85,20 @@
                       density="comfortable"
                       mask="(##) #####-####"
                       required
-                    ></v-text-field>
+                    />
                   </v-col>
 
-                  <v-col cols="12" md="6">
+                  <v-col
+                    cols="12"
+                    md="6"
+                  >
                     <v-text-field
                       v-model="storeData.cnpj"
                       label="CNPJ (opcional)"
                       variant="outlined"
                       density="comfortable"
                       mask="##.###.###/####-##"
-                    ></v-text-field>
+                    />
                   </v-col>
 
                   <v-col cols="12">
@@ -90,22 +109,30 @@
                       variant="outlined"
                       density="comfortable"
                       required
-                    ></v-select>
+                    />
                   </v-col>
                 </v-row>
               </v-card-text>
             </v-card>
 
             <!-- Endereço -->
-            <v-card class="mb-4" elevation="2">
+            <v-card
+              class="mb-4"
+              elevation="2"
+            >
               <v-card-title class="text-h6 font-weight-bold">
-                <v-icon class="mr-2">mdi-map-marker</v-icon>
+                <v-icon class="mr-2">
+                  mdi-map-marker
+                </v-icon>
                 Endereço
               </v-card-title>
               
               <v-card-text class="pa-4">
                 <v-row>
-                  <v-col cols="12" md="4">
+                  <v-col
+                    cols="12"
+                    md="4"
+                  >
                     <v-text-field
                       v-model="addressData.cep"
                       label="CEP"
@@ -113,61 +140,79 @@
                       density="comfortable"
                       mask="#####-###"
                       @blur="fetchAddressByCep"
-                    ></v-text-field>
+                    />
                   </v-col>
 
-                  <v-col cols="12" md="8">
+                  <v-col
+                    cols="12"
+                    md="8"
+                  >
                     <v-text-field
                       v-model="addressData.rua"
                       label="Rua/Avenida"
                       variant="outlined"
                       density="comfortable"
-                    ></v-text-field>
+                    />
                   </v-col>
 
-                  <v-col cols="12" md="3">
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
                     <v-text-field
                       v-model="addressData.numero"
                       label="Número"
                       variant="outlined"
                       density="comfortable"
-                    ></v-text-field>
+                    />
                   </v-col>
 
-                  <v-col cols="12" md="5">
+                  <v-col
+                    cols="12"
+                    md="5"
+                  >
                     <v-text-field
                       v-model="addressData.bairro"
                       label="Bairro"
                       variant="outlined"
                       density="comfortable"
-                    ></v-text-field>
+                    />
                   </v-col>
 
-                  <v-col cols="12" md="4">
+                  <v-col
+                    cols="12"
+                    md="4"
+                  >
                     <v-text-field
                       v-model="addressData.cidade"
                       label="Cidade"
                       variant="outlined"
                       density="comfortable"
-                    ></v-text-field>
+                    />
                   </v-col>
 
-                  <v-col cols="12" md="3">
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
                     <v-text-field
                       v-model="addressData.estado"
                       label="Estado"
                       variant="outlined"
                       density="comfortable"
-                    ></v-text-field>
+                    />
                   </v-col>
 
-                  <v-col cols="12" md="9">
+                  <v-col
+                    cols="12"
+                    md="9"
+                  >
                     <v-text-field
                       v-model="addressData.complemento"
                       label="Complemento"
                       variant="outlined"
                       density="comfortable"
-                    ></v-text-field>
+                    />
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -175,10 +220,18 @@
           </v-col>
 
           <!-- Banner da loja -->
-          <v-col cols="12" md="4">
-            <v-card class="mb-4" elevation="2">
+          <v-col
+            cols="12"
+            md="4"
+          >
+            <v-card
+              class="mb-4"
+              elevation="2"
+            >
               <v-card-title class="text-h6 font-weight-bold">
-                <v-icon class="mr-2">mdi-image</v-icon>
+                <v-icon class="mr-2">
+                  mdi-image
+                </v-icon>
                 Banner da Loja
               </v-card-title>
               
@@ -191,16 +244,19 @@
                   density="comfortable"
                   prepend-icon="mdi-camera"
                   @change="handleBannerChange"
-                ></v-file-input>
+                />
                 
                 <!-- Preview do banner -->
-                <div v-if="bannerPreview" class="mt-4">
+                <div
+                  v-if="bannerPreview"
+                  class="mt-4"
+                >
                   <v-img
                     :src="bannerPreview"
                     height="200"
                     class="rounded"
                     cover
-                  ></v-img>
+                  />
                 </div>
 
                 <v-alert
@@ -208,7 +264,9 @@
                   variant="tonal"
                   class="mt-4"
                 >
-                  <v-icon class="mr-2">mdi-lightbulb-outline</v-icon>
+                  <v-icon class="mr-2">
+                    mdi-lightbulb-outline
+                  </v-icon>
                   <strong>Dica:</strong> Use uma imagem que represente bem sua loja. 
                   Recomendamos 800x400 pixels.
                 </v-alert>
@@ -218,7 +276,9 @@
             <!-- Estatísticas -->
             <v-card elevation="2">
               <v-card-title class="text-h6 font-weight-bold">
-                <v-icon class="mr-2">mdi-chart-line</v-icon>
+                <v-icon class="mr-2">
+                  mdi-chart-line
+                </v-icon>
                 Estatísticas
               </v-card-title>
               
@@ -259,30 +319,30 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
-import DefaultLayout from '../layouts/DefaultLayout.vue'
-import { useStoreStore } from '../store/stores'
-import { useProductStore } from '../store/products'
-import { useBasketStore } from '../store/baskets'
-import { useAppStore } from '../store/app'
+import { ref, computed, onMounted } from 'vue';
+import DefaultLayout from '../layouts/DefaultLayout.vue';
+import { useStoreStore } from '../store/stores';
+import { useProductStore } from '../store/products';
+import { useBasketStore } from '../store/baskets';
+import { useAppStore } from '../store/app';
 
 export default {
   name: 'StorePage',
   components: {
-    DefaultLayout
+    DefaultLayout,
   },
   setup() {
-    const storeStore = useStoreStore()
-    const productStore = useProductStore()
-    const basketStore = useBasketStore()
-    const appStore = useAppStore()
+    const storeStore = useStoreStore();
+    const productStore = useProductStore();
+    const basketStore = useBasketStore();
+    const appStore = useAppStore();
     
     // Estado local
-    const form = ref(null)
-    const valid = ref(false)
-    const saving = ref(false)
-    const bannerFile = ref(null)
-    const bannerPreview = ref(null)
+    const form = ref(null);
+    const valid = ref(false);
+    const saving = ref(false);
+    const bannerFile = ref(null);
+    const bannerPreview = ref(null);
 
     // Dados da loja
     const storeData = ref({
@@ -290,8 +350,8 @@ export default {
       descricao: '',
       contato: '',
       cnpj: '',
-      tipos_de_entrega: ''
-    })
+      tipos_de_entrega: '',
+    });
 
     // Dados do endereço
     const addressData = ref({
@@ -301,48 +361,48 @@ export default {
       bairro: '',
       cidade: '',
       estado: '',
-      complemento: ''
-    })
+      complemento: '',
+    });
 
     // Opções
     const deliveryOptions = [
       { title: 'Entregar no local', value: 'Entregar' },
-      { title: 'Cliente retira', value: 'Receber' }
-    ]
+      { title: 'Cliente retira', value: 'Receber' },
+    ];
 
     // Regras de validação
     const nameRules = [
       v => !!v || 'Nome da loja é obrigatório',
-      v => (v && v.length >= 2) || 'Nome deve ter pelo menos 2 caracteres'
-    ]
+      v => (v && v.length >= 2) || 'Nome deve ter pelo menos 2 caracteres',
+    ];
 
     const descriptionRules = [
-      v => !v || v.length <= 500 || 'Descrição deve ter no máximo 500 caracteres'
-    ]
+      v => !v || v.length <= 500 || 'Descrição deve ter no máximo 500 caracteres',
+    ];
 
     const phoneRules = [
       v => !!v || 'Telefone é obrigatório',
-      v => (v && v.replace(/\D/g, '').length >= 10) || 'Telefone deve ter pelo menos 10 dígitos'
-    ]
+      v => (v && v.replace(/\D/g, '').length >= 10) || 'Telefone deve ter pelo menos 10 dígitos',
+    ];
 
     // Loja principal
-    const mainStore = computed(() => storeStore.mainStore)
+    const mainStore = computed(() => storeStore.mainStore);
 
     // Carregar dados da loja
     const loadStoreData = () => {
       if (mainStore.value) {
-        const attrs = mainStore.value.attributes
+        const attrs = mainStore.value.attributes;
         storeData.value = {
           nome: attrs.nome || '',
           descricao: attrs.descricao || '',
           contato: attrs.contato || '',
           cnpj: attrs.cnpj || '',
-          tipos_de_entrega: attrs.tipos_de_entrega || ''
-        }
+          tipos_de_entrega: attrs.tipos_de_entrega || '',
+        };
 
         // Carregar endereço
         if (attrs.endereco?.data) {
-          const endAttrs = attrs.endereco.data.attributes
+          const endAttrs = attrs.endereco.data.attributes;
           addressData.value = {
             cep: endAttrs.cep || '',
             rua: endAttrs.rua || '',
@@ -350,28 +410,28 @@ export default {
             bairro: endAttrs.bairro || '',
             cidade: endAttrs.cidade || '',
             estado: endAttrs.estado || '',
-            complemento: endAttrs.complemento || ''
-          }
+            complemento: endAttrs.complemento || '',
+          };
         }
 
         // Carregar banner
         if (attrs.banner?.data) {
-          const banner = attrs.banner.data
-          const baseUrl = process.env.VUE_APP_STRAPI_URL || 'http://localhost:1337'
+          const banner = attrs.banner.data;
+          const baseUrl = process.env.VUE_APP_STRAPI_URL || 'http://localhost:1337';
           bannerPreview.value = banner.attributes.url.startsWith('http') 
             ? banner.attributes.url 
-            : `${baseUrl}${banner.attributes.url}`
+            : `${baseUrl}${banner.attributes.url}`;
         }
       }
-    }
+    };
 
     // Buscar endereço por CEP
     const fetchAddressByCep = async () => {
-      const cep = addressData.value.cep?.replace(/\D/g, '')
+      const cep = addressData.value.cep?.replace(/\D/g, '');
       if (cep && cep.length === 8) {
         try {
-          const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
-          const data = await response.json()
+          const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+          const data = await response.json();
           
           if (!data.erro) {
             addressData.value = {
@@ -379,60 +439,60 @@ export default {
               rua: data.logradouro || '',
               bairro: data.bairro || '',
               cidade: data.localidade || '',
-              estado: data.uf || ''
-            }
+              estado: data.uf || '',
+            };
           }
         } catch (error) {
-          console.error('Erro ao buscar CEP:', error)
+          console.error('Erro ao buscar CEP:', error);
         }
       }
-    }
+    };
 
     // Manipular mudança de banner
     const handleBannerChange = (event) => {
-      const file = event.target.files?.[0]
+      const file = event.target.files?.[0];
       if (file) {
-        const reader = new FileReader()
+        const reader = new FileReader();
         reader.onload = (e) => {
-          bannerPreview.value = e.target.result
-        }
-        reader.readAsDataURL(file)
+          bannerPreview.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
       }
-    }
+    };
 
     // Salvar loja
     const saveStore = async () => {
-      if (!valid.value) return
+      if (!valid.value) return;
 
-      saving.value = true
+      saving.value = true;
 
       try {
         // Em produção, salvar via API
         console.log('Salvando loja:', {
           store: storeData.value,
           address: addressData.value,
-          banner: bannerFile.value
-        })
+          banner: bannerFile.value,
+        });
 
-        appStore.showSnackbar('Loja salva com sucesso!', 'success')
+        appStore.showSnackbar('Loja salva com sucesso!', 'success');
       } catch (error) {
-        console.error('Erro ao salvar loja:', error)
-        appStore.showSnackbar('Erro ao salvar loja', 'error')
+        console.error('Erro ao salvar loja:', error);
+        appStore.showSnackbar('Erro ao salvar loja', 'error');
       } finally {
-        saving.value = false
+        saving.value = false;
       }
-    }
+    };
 
     onMounted(async () => {
       // Carregar dados das stores
       await Promise.all([
         storeStore.fetchStores(),
         productStore.fetchProducts(),
-        basketStore.fetchBaskets()
-      ])
+        basketStore.fetchBaskets(),
+      ]);
       
-      loadStoreData()
-    })
+      loadStoreData();
+    });
 
     return {
       form,
@@ -450,10 +510,10 @@ export default {
       basketStore,
       fetchAddressByCep,
       handleBannerChange,
-      saveStore
-    }
-  }
-}
+      saveStore,
+    };
+  },
+};
 </script>
 
 <style scoped>

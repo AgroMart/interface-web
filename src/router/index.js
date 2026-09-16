@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
   {
@@ -7,8 +7,8 @@ const routes = [
     component: () => import('../pages/LoginPage.vue'),
     meta: {
       title: 'Login',
-      requiresAuth: false
-    }
+      requiresAuth: false,
+    },
   },
   {
     path: '/',
@@ -17,8 +17,8 @@ const routes = [
     meta: {
       title: 'Início',
       icon: 'mdi-home',
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: '/produtos',
@@ -27,8 +27,8 @@ const routes = [
     meta: {
       title: 'Meus Produtos',
       icon: 'mdi-package-variant',
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: '/cestas',
@@ -37,8 +37,8 @@ const routes = [
     meta: {
       title: 'Cestas',
       icon: 'mdi-basket',
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: '/pedidos',
@@ -47,8 +47,8 @@ const routes = [
     meta: {
       title: 'Pedidos',
       icon: 'mdi-clipboard-list',
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: '/loja',
@@ -57,8 +57,8 @@ const routes = [
     meta: {
       title: 'Minha Loja',
       icon: 'mdi-store',
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: '/perfil',
@@ -67,44 +67,44 @@ const routes = [
     meta: {
       title: 'Meu Perfil',
       icon: 'mdi-account',
-      requiresAuth: true
-    }
-  }
-]
+      requiresAuth: true,
+    },
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
 // Guarda de rotas para autenticação
 router.beforeEach(async (to, from, next) => {
   // Atualizar título da página
-  document.title = to.meta.title ? `${to.meta.title} - AgroMart` : 'AgroMart'
+  document.title = to.meta.title ? `${to.meta.title} - AgroMart` : 'AgroMart';
   
   // Importar store de autenticação
-  const { useAuthStore } = await import('@/store/auth')
-  const authStore = useAuthStore()
+  const { useAuthStore } = await import('@/store/auth');
+  const authStore = useAuthStore();
   
   // Inicializar autenticação se ainda não foi feito
   if (!authStore.isAuthenticated && localStorage.getItem('agromart_token')) {
-    await authStore.initAuth()
+    await authStore.initAuth();
   }
   
   // Verificar se a rota requer autenticação
-  const requiresAuth = to.meta.requiresAuth !== false
-  const isAuthenticated = authStore.isAuthenticated
+  const requiresAuth = to.meta.requiresAuth !== false;
+  const isAuthenticated = authStore.isAuthenticated;
   
   if (requiresAuth && !isAuthenticated) {
     // Redirecionar para login se não autenticado
-    next({ name: 'Login', query: { redirect: to.fullPath } })
+    next({ name: 'Login', query: { redirect: to.fullPath } });
   } else if (to.name === 'Login' && isAuthenticated) {
     // Redirecionar para home se já autenticado e tentando acessar login
-    next({ name: 'Home' })
+    next({ name: 'Home' });
   } else {
-    next()
+    next();
   }
-})
+});
 
-export default router
+export default router;
 

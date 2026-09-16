@@ -5,7 +5,11 @@
     </v-card-title>
 
     <v-card-text class="pa-6">
-      <v-form ref="form" v-model="valid" @submit.prevent="handleSubmit">
+      <v-form
+        ref="form"
+        v-model="valid"
+        @submit.prevent="handleSubmit"
+      >
         <v-row>
           <!-- Descrição da cesta -->
           <v-col cols="12">
@@ -19,11 +23,14 @@
               rows="4"
               counter="500"
               required
-            ></v-textarea>
+            />
           </v-col>
 
           <!-- Preço e quantidade -->
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-text-field
               v-model="formData.valor"
               label="Preço (R$) *"
@@ -35,10 +42,13 @@
               density="comfortable"
               prefix="R$"
               required
-            ></v-text-field>
+            />
           </v-col>
 
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-text-field
               v-model="formData.quantidade"
               label="Quantidade disponível *"
@@ -48,7 +58,7 @@
               variant="outlined"
               density="comfortable"
               required
-            ></v-text-field>
+            />
           </v-col>
 
           <!-- Upload de imagens -->
@@ -62,10 +72,13 @@
               density="comfortable"
               prepend-icon="mdi-camera"
               @change="handleImageChange"
-            ></v-file-input>
+            />
             
             <!-- Preview das imagens -->
-            <div v-if="imagePreviews.length > 0" class="mt-4">
+            <div
+              v-if="imagePreviews.length > 0"
+              class="mt-4"
+            >
               <v-row>
                 <v-col
                   v-for="(preview, index) in imagePreviews"
@@ -80,7 +93,7 @@
                       height="120"
                       class="rounded"
                       cover
-                    ></v-img>
+                    />
                     <v-btn
                       icon
                       size="small"
@@ -103,7 +116,9 @@
               variant="tonal"
               class="mb-0"
             >
-              <v-icon class="mr-2">mdi-lightbulb-outline</v-icon>
+              <v-icon class="mr-2">
+                mdi-lightbulb-outline
+              </v-icon>
               <strong>Dica:</strong> Descreva bem o que está incluído na cesta. 
               Exemplo: "2kg de tomates, 1kg de alface, 500g de cenoura, 1 maço de coentro"
             </v-alert>
@@ -113,7 +128,7 @@
     </v-card-text>
 
     <v-card-actions class="pa-6 pt-0">
-      <v-spacer></v-spacer>
+      <v-spacer />
       
       <v-btn
         variant="outlined"
@@ -137,143 +152,143 @@
 </template>
 
 <script>
-import { ref, computed, watch, onMounted } from 'vue'
-import { apiService } from '../services/api'
+import { ref, computed, watch, onMounted } from 'vue';
+import { apiService } from '../services/api';
 
 export default {
   name: 'BasketForm',
   props: {
     basket: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   emits: ['save', 'cancel'],
   setup(props, { emit }) {
-    const form = ref(null)
-    const valid = ref(false)
-    const loading = ref(false)
-    const imageFiles = ref([])
-    const imagePreviews = ref([])
+    const form = ref(null);
+    const valid = ref(false);
+    const loading = ref(false);
+    const imageFiles = ref([]);
+    const imagePreviews = ref([]);
 
     // Dados do formulário
     const formData = ref({
       descricao: '',
       valor: null,
-      quantidade: null
-    })
+      quantidade: null,
+    });
 
     // Regras de validação
     const descriptionRules = [
       v => !!v || 'Descrição é obrigatória',
       v => (v && v.length >= 10) || 'Descrição deve ter pelo menos 10 caracteres',
-      v => (v && v.length <= 500) || 'Descrição deve ter no máximo 500 caracteres'
-    ]
+      v => (v && v.length <= 500) || 'Descrição deve ter no máximo 500 caracteres',
+    ];
 
     const priceRules = [
       v => !!v || 'Preço é obrigatório',
-      v => (v && v > 0) || 'Preço deve ser maior que zero'
-    ]
+      v => (v && v > 0) || 'Preço deve ser maior que zero',
+    ];
 
     const quantityRules = [
       v => v !== null && v !== undefined && v !== '' || 'Quantidade é obrigatória',
-      v => (v >= 0) || 'Quantidade não pode ser negativa'
-    ]
+      v => (v >= 0) || 'Quantidade não pode ser negativa',
+    ];
 
-    const isEditing = computed(() => !!props.basket)
+    const isEditing = computed(() => !!props.basket);
 
     // Carregar dados da cesta para edição
     const loadBasketData = () => {
       if (props.basket) {
-        const attrs = props.basket
+        const attrs = props.basket;
         formData.value = {
           descricao: attrs.descricao || '',
           valor: attrs.valor || null,
-          quantidade: attrs.quantidade || null
-        }
+          quantidade: attrs.quantidade || null,
+        };
 
         // Carregar imagens existentes
         if (attrs.imagem?.data && attrs.imagem.data.length > 0) {
-          const baseUrl = process.env.VUE_APP_STRAPI_URL || 'http://localhost:1337'
+          const baseUrl = process.env.VUE_APP_STRAPI_URL || 'http://localhost:1337';
           imagePreviews.value = attrs.imagem.data.map(image => 
             image.attributes.url.startsWith('http') 
               ? image.attributes.url 
-              : `${baseUrl}${image.attributes.url}`
-          )
+              : `${baseUrl}${image.attributes.url}`,
+          );
         }
       } else {
         // Resetar formulário para nova cesta
         formData.value = {
           descricao: '',
           valor: null,
-          quantidade: null
-        }
-        imagePreviews.value = []
-        imageFiles.value = []
+          quantidade: null,
+        };
+        imagePreviews.value = [];
+        imageFiles.value = [];
       }
-    }
+    };
 
     // Manipular mudança de imagens
     const handleImageChange = (event) => {
-      const files = event.target.files
+      const files = event.target.files;
       if (files && files.length > 0) {
         // Limpar previews anteriores se for upload novo
         if (!isEditing.value) {
-          imagePreviews.value = []
+          imagePreviews.value = [];
         }
 
         Array.from(files).forEach(file => {
-          const reader = new FileReader()
+          const reader = new FileReader();
           reader.onload = (e) => {
-            imagePreviews.value.push(e.target.result)
-          }
-          reader.readAsDataURL(file)
-        })
+            imagePreviews.value.push(e.target.result);
+          };
+          reader.readAsDataURL(file);
+        });
       }
-    }
+    };
 
     // Remover imagem
     const removeImage = (index) => {
-      imagePreviews.value.splice(index, 1)
+      imagePreviews.value.splice(index, 1);
       if (imageFiles.value && imageFiles.value.length > index) {
-        const newFiles = Array.from(imageFiles.value)
-        newFiles.splice(index, 1)
-        imageFiles.value = newFiles
+        const newFiles = Array.from(imageFiles.value);
+        newFiles.splice(index, 1);
+        imageFiles.value = newFiles;
       }
-    }
+    };
 
     // Submeter formulário
     const handleSubmit = async () => {
-      if (!valid.value) return
+      if (!valid.value) return;
 
-      loading.value = true
+      loading.value = true;
 
       try {
-        let basketData = { ...formData.value }
+        let basketData = { ...formData.value };
 
         // Upload das imagens se houver
         if (imageFiles.value && imageFiles.value.length > 0) {
           const uploadPromises = Array.from(imageFiles.value).map(file => 
-            apiService.uploadFile(file)
-          )
-          const uploadResponses = await Promise.all(uploadPromises)
-          basketData.imagem = uploadResponses.map(response => response.data[0].id)
+            apiService.uploadFile(file),
+          );
+          const uploadResponses = await Promise.all(uploadPromises);
+          basketData.imagem = uploadResponses.map(response => response.data[0].id);
         }
 
-        emit('save', basketData)
+        emit('save', basketData);
       } catch (error) {
-        console.error('Erro ao salvar cesta:', error)
+        console.error('Erro ao salvar cesta:', error);
       } finally {
-        loading.value = false
+        loading.value = false;
       }
-    }
+    };
 
     // Watchers
-    watch(() => props.basket, loadBasketData, { immediate: true })
+    watch(() => props.basket, loadBasketData, { immediate: true });
 
     onMounted(() => {
-      loadBasketData()
-    })
+      loadBasketData();
+    });
 
     return {
       form,
@@ -288,10 +303,10 @@ export default {
       isEditing,
       handleImageChange,
       removeImage,
-      handleSubmit
-    }
-  }
-}
+      handleSubmit,
+    };
+  },
+};
 </script>
 
 <style scoped>

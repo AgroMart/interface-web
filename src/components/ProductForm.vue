@@ -5,7 +5,11 @@
     </v-card-title>
 
     <v-card-text class="pa-6">
-      <v-form ref="form" v-model="valid" @submit.prevent="handleSubmit">
+      <v-form
+        ref="form"
+        v-model="valid"
+        @submit.prevent="handleSubmit"
+      >
         <v-row>
           <!-- Nome do produto -->
           <v-col cols="12">
@@ -16,7 +20,7 @@
               variant="outlined"
               density="comfortable"
               required
-            ></v-text-field>
+            />
           </v-col>
 
           <!-- Descrição -->
@@ -30,11 +34,14 @@
               rows="3"
               counter="500"
               :rules="descriptionRules"
-            ></v-textarea>
+            />
           </v-col>
 
           <!-- Preço e unidade de medida -->
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-text-field
               v-model="formData.valor"
               label="Preço (R$) *"
@@ -46,21 +53,27 @@
               density="comfortable"
               prefix="R$"
               required
-            ></v-text-field>
+            />
           </v-col>
 
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-select
               v-model="formData.unidade_medida"
               :items="unidadeOptions"
               label="Unidade de medida"
               variant="outlined"
               density="comfortable"
-            ></v-select>
+            />
           </v-col>
 
           <!-- Quantidade -->
-          <v-col cols="12" md="6">
+          <v-col
+            cols="12"
+            md="6"
+          >
             <v-text-field
               v-model="formData.quantidade"
               label="Quantidade disponível *"
@@ -70,7 +83,7 @@
               variant="outlined"
               density="comfortable"
               required
-            ></v-text-field>
+            />
           </v-col>
 
           <!-- Upload de imagem -->
@@ -83,16 +96,19 @@
               density="comfortable"
               prepend-icon="mdi-camera"
               @change="handleImageChange"
-            ></v-file-input>
+            />
             
             <!-- Preview da imagem -->
-            <div v-if="imagePreview" class="mt-4">
+            <div
+              v-if="imagePreview"
+              class="mt-4"
+            >
               <v-img
                 :src="imagePreview"
                 max-height="200"
                 max-width="200"
                 class="rounded"
-              ></v-img>
+              />
             </div>
           </v-col>
         </v-row>
@@ -100,7 +116,7 @@
     </v-card-text>
 
     <v-card-actions class="pa-6 pt-0">
-      <v-spacer></v-spacer>
+      <v-spacer />
       
       <v-btn
         variant="outlined"
@@ -124,7 +140,7 @@
 </template>
 
 <script>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue';
 // import { apiService } from '../services/api'
 
 export default {
@@ -132,16 +148,16 @@ export default {
   props: {
     product: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   emits: ['save', 'cancel'],
   setup(props, { emit }) {
-    const form = ref(null)
-    const valid = ref(false)
-    const loading = ref(false)
-    const imageFile = ref(null)
-    const imagePreview = ref(null)
+    const form = ref(null);
+    const valid = ref(false);
+    const loading = ref(false);
+    const imageFile = ref(null);
+    const imagePreview = ref(null);
 
     // Dados do formulário
     const formData = ref({
@@ -149,8 +165,8 @@ export default {
       descricao: '',
       valor: null,
       unidade_medida: '',
-      quantidade: null
-    })
+      quantidade: null,
+    });
 
     // Opções de unidade de medida
     const unidadeOptions = [
@@ -162,51 +178,51 @@ export default {
       'litro',
       'ml',
       'caixa',
-      'saco'
-    ]
+      'saco',
+    ];
 
     // Regras de validação
     const nameRules = [
       v => !!v || 'Nome é obrigatório',
       v => (v && v.length >= 2) || 'Nome deve ter pelo menos 2 caracteres',
-      v => (v && v.length <= 100) || 'Nome deve ter no máximo 100 caracteres'
-    ]
+      v => (v && v.length <= 100) || 'Nome deve ter no máximo 100 caracteres',
+    ];
 
     const descriptionRules = [
-      v => !v || v.length <= 500 || 'Descrição deve ter no máximo 500 caracteres'
-    ]
+      v => !v || v.length <= 500 || 'Descrição deve ter no máximo 500 caracteres',
+    ];
 
     const priceRules = [
       v => !!v || 'Preço é obrigatório',
-      v => (v && v > 0) || 'Preço deve ser maior que zero'
-    ]
+      v => (v && v > 0) || 'Preço deve ser maior que zero',
+    ];
 
     const quantityRules = [
       v => v !== null && v !== undefined && v !== '' || 'Quantidade é obrigatória',
-      v => (v >= 0) || 'Quantidade não pode ser negativa'
-    ]
+      v => (v >= 0) || 'Quantidade não pode ser negativa',
+    ];
 
-    const isEditing = computed(() => !!props.product)
+    const isEditing = computed(() => !!props.product);
 
     // Carregar dados do produto para edição
     const loadProductData = () => {
       if (props.product) {
-        const attrs = props.product
+        const attrs = props.product;
         formData.value = {
           nome: attrs.nome || '',
           descricao: attrs.descricao || '',
           valor: attrs.valor || null,
           unidade_medida: attrs.unidade_medida || '',
-          quantidade: attrs.quantidade || null
-        }
+          quantidade: attrs.quantidade || null,
+        };
 
         // Carregar imagem existente
         if (attrs.imagem?.data) {
-          const image = attrs.imagem.data
-          const baseUrl = process.env.VUE_APP_STRAPI_URL || 'http://localhost:1337'
+          const image = attrs.imagem.data;
+          const baseUrl = process.env.VUE_APP_STRAPI_URL || 'http://localhost:1337';
           imagePreview.value = image.attributes.url.startsWith('http') 
             ? image.attributes.url 
-            : `${baseUrl}${image.attributes.url}`
+            : `${baseUrl}${image.attributes.url}`;
         }
       } else {
         // Resetar formulário para novo produto
@@ -215,35 +231,35 @@ export default {
           descricao: '',
           valor: null,
           unidade_medida: '',
-          quantidade: null
-        }
-        imagePreview.value = null
-        imageFile.value = null
+          quantidade: null,
+        };
+        imagePreview.value = null;
+        imageFile.value = null;
       }
-    }
+    };
 
     // Manipular mudança de imagem
     const handleImageChange = (event) => {
-      const file = event.target.files?.[0]
+      const file = event.target.files?.[0];
       if (file) {
-        const reader = new FileReader()
+        const reader = new FileReader();
         reader.onload = (e) => {
-          imagePreview.value = e.target.result
-        }
-        reader.readAsDataURL(file)
+          imagePreview.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
       } else {
-        imagePreview.value = null
+        imagePreview.value = null;
       }
-    }
+    };
 
     // Submeter formulário
     const handleSubmit = async () => {
-      if (!valid.value) return
+      if (!valid.value) return;
 
-      loading.value = true
+      loading.value = true;
 
       try {
-        let productData = { ...formData.value }
+        let productData = { ...formData.value };
 
         // Upload da imagem se houver
         // if (imageFile.value?.[0]) {
@@ -251,20 +267,20 @@ export default {
         //   productData.imagem = uploadResponse.data[0].id
         // }
 
-        emit('save', productData)
+        emit('save', productData);
       } catch (error) {
-        console.error('Erro ao salvar produto:', error)
+        console.error('Erro ao salvar produto:', error);
       } finally {
-        loading.value = false
+        loading.value = false;
       }
-    }
+    };
 
     // Watchers
-    watch(() => props.product, loadProductData, { immediate: true })
+    watch(() => props.product, loadProductData, { immediate: true });
 
     onMounted(() => {
-      loadProductData()
-    })
+      loadProductData();
+    });
 
     return {
       form,
@@ -280,10 +296,10 @@ export default {
       quantityRules,
       isEditing,
       handleImageChange,
-      handleSubmit
-    }
-  }
-}
+      handleSubmit,
+    };
+  },
+};
 </script>
 
 <style scoped>

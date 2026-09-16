@@ -5,7 +5,7 @@
       size="80"
       color="grey-lighten-1"
       class="mb-4"
-    ></v-icon>
+    />
     
     <h3 class="text-h6 font-weight-bold mb-2 text-grey-darken-1">
       {{ title }}
@@ -21,7 +21,9 @@
       size="large"
       @click="$emit('action')"
     >
-      <v-icon class="mr-2">{{ actionIcon }}</v-icon>
+      <v-icon class="mr-2">
+        {{ actionIcon }}
+      </v-icon>
       {{ actionText }}
     </v-btn>
   </div>
@@ -33,27 +35,27 @@ export default {
   props: {
     icon: {
       type: String,
-      default: 'mdi-inbox-outline'
+      default: 'mdi-inbox-outline',
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     actionText: {
       type: String,
-      default: null
+      default: null,
     },
     actionIcon: {
       type: String,
-      default: 'mdi-plus'
-    }
+      default: 'mdi-plus',
+    },
   },
-  emits: ['action']
-}
+  emits: ['action'],
+};
 </script>
 
 <style scoped>

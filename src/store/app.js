@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
-import { onLoadingChange } from '../services/api'
+import { defineStore } from 'pinia';
+import { onLoadingChange } from '../services/api';
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -9,7 +9,7 @@ export const useAppStore = defineStore('app', {
       show: false,
       message: '',
       color: 'info',
-      timeout: 4000
+      timeout: 4000,
     },
     drawer: false, // Para menu lateral em telas maiores
   }),
@@ -19,19 +19,19 @@ export const useAppStore = defineStore('app', {
     init() {
       // Listener para mudanças no loading da API
       onLoadingChange((isLoading) => {
-        this.isLoading = isLoading
-      })
+        this.isLoading = isLoading;
+      });
 
       // Listeners para status de conexão
       window.addEventListener('online', () => {
-        this.isOnline = true
-        this.showSnackbar('Conexão restabelecida', 'success')
-      })
+        this.isOnline = true;
+        this.showSnackbar('Conexão restabelecida', 'success');
+      });
 
       window.addEventListener('offline', () => {
-        this.isOnline = false
-        this.showSnackbar('Sem conexão com a internet', 'warning')
-      })
+        this.isOnline = false;
+        this.showSnackbar('Sem conexão com a internet', 'warning');
+      });
     },
 
     // Mostrar mensagem
@@ -40,24 +40,24 @@ export const useAppStore = defineStore('app', {
         show: true,
         message,
         color,
-        timeout
-      }
+        timeout,
+      };
     },
 
     // Fechar mensagem
     hideSnackbar() {
-      this.snackbar.show = false
+      this.snackbar.show = false;
     },
 
     // Toggle do drawer
     toggleDrawer() {
-      this.drawer = !this.drawer
+      this.drawer = !this.drawer;
     },
 
     // Fechar drawer
     closeDrawer() {
-      this.drawer = false
-    }
-  }
-})
+      this.drawer = false;
+    },
+  },
+});
 

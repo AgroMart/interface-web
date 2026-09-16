@@ -12,10 +12,16 @@
       </div>
 
       <!-- Filtros -->
-      <v-card class="mb-4" elevation="1">
+      <v-card
+        class="mb-4"
+        elevation="1"
+      >
         <v-card-text class="pa-4">
           <v-row align="center">
-            <v-col cols="12" md="4">
+            <v-col
+              cols="12"
+              md="4"
+            >
               <v-text-field
                 v-model="searchQuery"
                 label="Buscar pedidos"
@@ -24,10 +30,13 @@
                 density="comfortable"
                 hide-details
                 clearable
-              ></v-text-field>
+              />
             </v-col>
             
-            <v-col cols="12" md="4">
+            <v-col
+              cols="12"
+              md="4"
+            >
               <v-select
                 v-model="statusFilter"
                 :items="statusOptions"
@@ -35,10 +44,13 @@
                 variant="outlined"
                 density="comfortable"
                 hide-details
-              ></v-select>
+              />
             </v-col>
             
-            <v-col cols="12" md="4">
+            <v-col
+              cols="12"
+              md="4"
+            >
               <v-select
                 v-model="periodFilter"
                 :items="periodOptions"
@@ -46,7 +58,7 @@
                 variant="outlined"
                 density="comfortable"
                 hide-details
-              ></v-select>
+              />
             </v-col>
           </v-row>
         </v-card-text>
@@ -63,7 +75,7 @@
             <v-skeleton-loader
               type="list-item-three-line"
               class="mb-4"
-            ></v-skeleton-loader>
+            />
           </v-col>
         </v-row>
       </div>
@@ -104,31 +116,47 @@
               </v-chip>
             </div>
 
-            <v-divider class="mb-3"></v-divider>
+            <v-divider class="mb-3" />
 
             <!-- Informações de Entrega -->
             <div class="mb-3">
               <div class="d-flex align-center mb-2">
-                <v-icon size="small" class="mr-2" color="grey-darken-1">mdi-truck-delivery</v-icon>
+                <v-icon
+                  size="small"
+                  class="mr-2"
+                  color="grey-darken-1"
+                >
+                  mdi-truck-delivery
+                </v-icon>
                 <span class="text-body-1 font-weight-medium">
                   Entrega: {{ getDeliveryTypeText(order.deliveryType) }}
                 </span>
               </div>
               
               <div class="d-flex align-center">
-                <v-icon size="small" class="mr-2" color="grey-darken-1">mdi-calendar-clock</v-icon>
+                <v-icon
+                  size="small"
+                  class="mr-2"
+                  color="grey-darken-1"
+                >
+                  mdi-calendar-clock
+                </v-icon>
                 <span class="text-body-2 text-grey-darken-1">
                   Previsão: {{ formatDate(order.deliveryPrediction) }}
                 </span>
               </div>
             </div>
 
-            <v-divider class="mb-3"></v-divider>
+            <v-divider class="mb-3" />
 
             <!-- Informações do cliente -->
             <div class="mb-3">
               <div class="d-flex align-center mb-2">
-                <v-icon size="small" class="mr-2" color="grey-darken-1">
+                <v-icon
+                  size="small"
+                  class="mr-2"
+                  color="grey-darken-1"
+                >
                   mdi-account
                 </v-icon>
                 <span class="text-body-1 font-weight-medium">
@@ -137,7 +165,11 @@
               </div>
               
               <div class="d-flex align-center mb-2">
-                <v-icon size="small" class="mr-2" color="grey-darken-1">
+                <v-icon
+                  size="small"
+                  class="mr-2"
+                  color="grey-darken-1"
+                >
                   mdi-phone
                 </v-icon>
                 <span class="text-body-2 text-grey-darken-1">
@@ -146,7 +178,11 @@
               </div>
               
               <div class="d-flex align-center">
-                <v-icon size="small" class="mr-2" color="grey-darken-1">
+                <v-icon
+                  size="small"
+                  class="mr-2"
+                  color="grey-darken-1"
+                >
                   mdi-map-marker
                 </v-icon>
                 <span class="text-body-2 text-grey-darken-1">
@@ -155,7 +191,7 @@
               </div>
             </div>
 
-            <v-divider class="mb-3"></v-divider>
+            <v-divider class="mb-3" />
 
             <!-- Itens do pedido -->
             <div class="mb-3">
@@ -181,7 +217,7 @@
               </div>
             </div>
 
-            <v-divider class="mb-3"></v-divider>
+            <v-divider class="mb-3" />
 
             <!-- Total e ações -->
             <div class="d-flex align-center justify-space-between">
@@ -199,7 +235,9 @@
                   size="small"
                   @click="updateOrderStatus(order.id, 'confirmed')"
                 >
-                  <v-icon class="mr-1">mdi-check</v-icon>
+                  <v-icon class="mr-1">
+                    mdi-check
+                  </v-icon>
                   Confirmar
                 </v-btn>
                 
@@ -210,7 +248,9 @@
                   size="small"
                   @click="updateOrderStatus(order.id, 'preparing')"
                 >
-                  <v-icon class="mr-1">mdi-package-variant</v-icon>
+                  <v-icon class="mr-1">
+                    mdi-package-variant
+                  </v-icon>
                   Preparar
                 </v-btn>
                 
@@ -221,7 +261,9 @@
                   size="small"
                   @click="updateOrderStatus(order.id, 'ready')"
                 >
-                  <v-icon class="mr-1">mdi-truck</v-icon>
+                  <v-icon class="mr-1">
+                    mdi-truck
+                  </v-icon>
                   Pronto
                 </v-btn>
                 
@@ -231,7 +273,9 @@
                   size="small"
                   @click="viewOrderDetails(order)"
                 >
-                  <v-icon class="mr-1">mdi-eye</v-icon>
+                  <v-icon class="mr-1">
+                    mdi-eye
+                  </v-icon>
                   Detalhes
                 </v-btn>
               </div>
@@ -244,25 +288,25 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
-import DefaultLayout from '../layouts/DefaultLayout.vue'
-import EmptyState from '../components/EmptyState.vue'
-import { useAppStore } from '../store/app'
+import { ref, computed, onMounted } from 'vue';
+import DefaultLayout from '../layouts/DefaultLayout.vue';
+import EmptyState from '../components/EmptyState.vue';
+import { useAppStore } from '../store/app';
 
 export default {
   name: 'OrdersPage',
   components: {
     DefaultLayout,
-    EmptyState
+    EmptyState,
   },
   setup() {
-    const appStore = useAppStore()
+    const appStore = useAppStore();
     
     // Estado local
-    const loading = ref(false)
-    const searchQuery = ref('')
-    const statusFilter = ref('all')
-    const periodFilter = ref('all')
+    const loading = ref(false);
+    const searchQuery = ref('');
+    const statusFilter = ref('all');
+    const periodFilter = ref('all');
 
     // Dados mock dos pedidos (em produção viria da API)
     const orders = ref([
@@ -275,13 +319,13 @@ export default {
         customer: {
           name: 'Maria Silva',
           phone: '(61) 99999-9999',
-          address: 'Rua das Flores, 123 - Brasília/DF'
+          address: 'Rua das Flores, 123 - Brasília/DF',
         },
         items: [
           { id: 1, name: 'Tomate Orgânico', quantity: 2, total: 12.00 },
-          { id: 2, name: 'Alface Crespa', quantity: 1, total: 4.50 }
+          { id: 2, name: 'Alface Crespa', quantity: 1, total: 4.50 },
         ],
-        total: 16.50
+        total: 16.50,
       },
       {
         id: '002',
@@ -292,12 +336,12 @@ export default {
         customer: {
           name: 'João Santos',
           phone: '(61) 88888-8888',
-          address: 'Av. Principal, 456 - Brasília/DF'
+          address: 'Av. Principal, 456 - Brasília/DF',
         },
         items: [
-          { id: 3, name: 'Cesta Semanal', quantity: 1, total: 35.00 }
+          { id: 3, name: 'Cesta Semanal', quantity: 1, total: 35.00 },
         ],
-        total: 35.00
+        total: 35.00,
       },
       {
         id: '003',
@@ -308,15 +352,15 @@ export default {
         customer: {
           name: 'Ana Costa',
           phone: '(61) 77777-7777',
-          address: 'Quadra 10, Casa 5 - Brasília/DF'
+          address: 'Quadra 10, Casa 5 - Brasília/DF',
         },
         items: [
           { id: 4, name: 'Cenoura', quantity: 1, total: 3.50 },
-          { id: 5, name: 'Beterraba', quantity: 2, total: 8.00 }
+          { id: 5, name: 'Beterraba', quantity: 2, total: 8.00 },
         ],
-        total: 11.50
-      }
-    ])
+        total: 11.50,
+      },
+    ]);
 
     // Opções de filtro
     const statusOptions = [
@@ -326,89 +370,89 @@ export default {
       { title: 'Preparando', value: 'preparing' },
       { title: 'Pronto', value: 'ready' },
       { title: 'Entregue', value: 'completed' },
-      { title: 'Cancelado', value: 'cancelled' }
-    ]
+      { title: 'Cancelado', value: 'cancelled' },
+    ];
 
     const periodOptions = [
       { title: 'Todos', value: 'all' },
       { title: 'Hoje', value: 'today' },
       { title: 'Esta semana', value: 'week' },
-      { title: 'Este mês', value: 'month' }
-    ]
+      { title: 'Este mês', value: 'month' },
+    ];
 
     // Pedidos filtrados
     const filteredOrders = computed(() => {
-      let filtered = [...orders.value]
+      let filtered = [...orders.value];
 
       // Filtro por busca
       if (searchQuery.value) {
-        const query = searchQuery.value.toLowerCase()
+        const query = searchQuery.value.toLowerCase();
         filtered = filtered.filter(order =>
           order.id.toLowerCase().includes(query) ||
-          order.customer.name.toLowerCase().includes(query)
-        )
+          order.customer.name.toLowerCase().includes(query),
+        );
       }
 
       // Filtro por status
       if (statusFilter.value !== 'all') {
-        filtered = filtered.filter(order => order.status === statusFilter.value)
+        filtered = filtered.filter(order => order.status === statusFilter.value);
       }
 
       // Filtro por período
       if (periodFilter.value !== 'all') {
-        const now = new Date()
+        const now = new Date();
         filtered = filtered.filter(order => {
-          const orderDate = new Date(order.createdAt)
+          const orderDate = new Date(order.createdAt);
           switch (periodFilter.value) {
-            case 'today': {
-              return orderDate.toDateString() === now.toDateString()
-            }
-            case 'week': {
-              const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-              return orderDate >= weekAgo
-            }
-            case 'month': {
-              const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
-              return orderDate >= monthAgo
-            }
-            default:
-              return true
+          case 'today': {
+            return orderDate.toDateString() === now.toDateString();
           }
-        })
+          case 'week': {
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            return orderDate >= weekAgo;
+          }
+          case 'month': {
+            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            return orderDate >= monthAgo;
+          }
+          default:
+            return true;
+          }
+        });
       }
 
       // Ordenar por data (mais recente primeiro)
-      filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-      return filtered
-    })
+      return filtered;
+    });
 
     const getDeliveryTypeText = (type) => {
       const texts = {
         csa: 'Ponto de Coleta (CSA)',
-        home: 'Entrega em Residência'
-      }
-      return texts[type] || 'Não Informado'
-    }
+        home: 'Entrega em Residência',
+      };
+      return texts[type] || 'Não Informado';
+    };
 
     // Funções auxiliares
     const formatDate = (dateString) => {
-      const date = new Date(dateString)
+      const date = new Date(dateString);
       return date.toLocaleDateString('pt-BR', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
-      })
-    }
+        minute: '2-digit',
+      });
+    };
 
     const formatPrice = (price) => {
       return price.toLocaleString('pt-BR', {
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      })
-    }
+        maximumFractionDigits: 2,
+      });
+    };
 
     const getStatusColor = (status) => {
       const colors = {
@@ -417,10 +461,10 @@ export default {
         preparing: 'primary',
         ready: 'success',
         completed: 'success',
-        cancelled: 'error'
-      }
-      return colors[status] || 'grey'
-    }
+        cancelled: 'error',
+      };
+      return colors[status] || 'grey';
+    };
 
     const getStatusText = (status) => {
       const texts = {
@@ -429,29 +473,29 @@ export default {
         preparing: 'Preparando',
         ready: 'Pronto',
         completed: 'Entregue',
-        cancelled: 'Cancelado'
-      }
-      return texts[status] || status
-    }
+        cancelled: 'Cancelado',
+      };
+      return texts[status] || status;
+    };
 
     // Ações
     const updateOrderStatus = (orderId, newStatus) => {
-      const order = orders.value.find(o => o.id === orderId)
+      const order = orders.value.find(o => o.id === orderId);
       if (order) {
-        order.status = newStatus
-        appStore.showSnackbar(`Pedido #${orderId} atualizado para ${getStatusText(newStatus)}`, 'success')
+        order.status = newStatus;
+        appStore.showSnackbar(`Pedido #${orderId} atualizado para ${getStatusText(newStatus)}`, 'success');
       }
-    }
+    };
 
     const viewOrderDetails = (order) => {
-      console.log('Ver detalhes do pedido:', order)
+      console.log('Ver detalhes do pedido:', order);
       // Implementar visualização detalhada
-    }
+    };
 
     onMounted(() => {
       // Em produção, carregar pedidos da API
-      loading.value = false
-    })
+      loading.value = false;
+    });
 
     return {
       loading,
@@ -467,10 +511,10 @@ export default {
       getStatusText,
       getDeliveryTypeText,
       updateOrderStatus,
-      viewOrderDetails
-    }
-  }
-}
+      viewOrderDetails,
+    };
+  },
+};
 </script>
 
 <style scoped>

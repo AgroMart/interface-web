@@ -5,20 +5,24 @@
     </v-card-title>
 
     <v-card-text class="pa-6">
-      <v-radio-group v-model="deliveryType" label="Selecione o tipo de entrega" mandatory>
+      <v-radio-group
+        v-model="deliveryType"
+        label="Selecione o tipo de entrega"
+        mandatory
+      >
         <v-radio
           label="Ponto de Coleta (CSA)"
           value="csa"
           color="primary"
-        ></v-radio>
+        />
         <v-radio
           label="Entrega em Residência"
           value="home"
           color="primary"
-        ></v-radio>
+        />
       </v-radio-group>
 
-      <v-divider class="my-4"></v-divider>
+      <v-divider class="my-4" />
 
       <div v-if="deliveryType === 'csa'">
         <h3 class="text-subtitle-1 font-weight-bold mb-2">
@@ -35,7 +39,7 @@
           density="comfortable"
           hide-details
           required
-        ></v-select>
+        />
       </div>
 
       <div v-else-if="deliveryType === 'home'">
@@ -53,10 +57,10 @@
           hide-details
           required
           disabled
-        ></v-text-field>
+        />
       </div>
 
-      <v-divider class="my-4"></v-divider>
+      <v-divider class="my-4" />
 
       <h3 class="text-subtitle-1 font-weight-bold mb-2">
         Previsão de Entrega
@@ -66,13 +70,15 @@
         variant="tonal"
         class="mb-0"
       >
-        <v-icon class="mr-2">mdi-calendar-clock</v-icon>
+        <v-icon class="mr-2">
+          mdi-calendar-clock
+        </v-icon>
         <strong>Previsão:</strong> {{ deliveryPredictionText }}
       </v-alert>
     </v-card-text>
 
     <v-card-actions class="pa-6 pt-0">
-      <v-spacer></v-spacer>
+      <v-spacer />
       
       <v-btn
         variant="outlined"
@@ -97,7 +103,7 @@
 <script>
 /* eslint-disable no-unused-vars */
 
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue';
 
 export default {
   name: 'DeliverySelection',
@@ -105,71 +111,71 @@ export default {
     // Endereço do usuário, mockado para demonstração
     userAddress: {
       type: String,
-      default: 'Rua das Flores, 123 - Brasília/DF'
-    }
+      default: 'Rua das Flores, 123 - Brasília/DF',
+    },
   },
   emits: ['proceed', 'cancel'],
   setup(props, { emit }) {
-    const deliveryType = ref('csa') // Padrão para CSA
-    const selectedCsa = ref(null)
-    const deliveryAddress = ref(props.userAddress)
+    const deliveryType = ref('csa'); // Padrão para CSA
+    const selectedCsa = ref(null);
+    const deliveryAddress = ref(props.userAddress);
 
     // Mock de opções de CSA
     const csaOptions = [
       { title: 'CSA Asa Norte - 905 Norte', value: 'csa_norte' },
       { title: 'CSA Asa Sul - 308 Sul', value: 'csa_sul' },
-      { title: 'CSA Lago Sul - QI 15', value: 'csa_lago_sul' }
-    ]
+      { title: 'CSA Lago Sul - QI 15', value: 'csa_lago_sul' },
+    ];
 
     // Definir o primeiro CSA como padrão
     if (csaOptions.length > 0) {
-      selectedCsa.value = csaOptions[0].value
+      selectedCsa.value = csaOptions[0].value;
     }
 
     // Lógica de previsão de entrega (mockada)
     const getPredictionDate = (type) => {
-      const today = new Date()
-      const deliveryDate = new Date(today)
+      const today = new Date();
+      const deliveryDate = new Date(today);
       
       if (type === 'csa') {
         // Entrega CSA: Próxima sexta-feira
-        const dayOfWeek = today.getDay() // 0 = Domingo, 5 = Sexta
-        const daysUntilFriday = (5 - dayOfWeek + 7) % 7
-        deliveryDate.setDate(today.getDate() + daysUntilFriday)
-        return deliveryDate.toISOString()
+        const dayOfWeek = today.getDay(); // 0 = Domingo, 5 = Sexta
+        const daysUntilFriday = (5 - dayOfWeek + 7) % 7;
+        deliveryDate.setDate(today.getDate() + daysUntilFriday);
+        return deliveryDate.toISOString();
       } else if (type === 'home') {
         // Entrega em Residência: Próxima quarta-feira
-        const dayOfWeek = today.getDay() // 0 = Domingo, 3 = Quarta
-        const daysUntilWednesday = (3 - dayOfWeek + 7) % 7
-        deliveryDate.setDate(today.getDate() + daysUntilWednesday)
-        return deliveryDate.toISOString()
+        const dayOfWeek = today.getDay(); // 0 = Domingo, 3 = Quarta
+        const daysUntilWednesday = (3 - dayOfWeek + 7) % 7;
+        deliveryDate.setDate(today.getDate() + daysUntilWednesday);
+        return deliveryDate.toISOString();
       }
-      return null
-    }
+      return null;
+    };
 
-    const deliveryPrediction = computed(() => getPredictionDate(deliveryType.value))
+    const deliveryPrediction = computed(() => getPredictionDate(deliveryType.value));
 
     const deliveryPredictionText = computed(() => {
-      if (!deliveryPrediction.value) return 'Não disponível'
+      if (!deliveryPrediction.value) return 'Não disponível';
       
-      const date = new Date(deliveryPrediction.value)
+      const date = new Date(deliveryPrediction.value);
       return date.toLocaleDateString('pt-BR', {
         weekday: 'long',
         day: '2-digit',
         month: 'long',
         hour: '2-digit',
-        minute: '2-digit'
-      })
-    })
+        minute: '2-digit',
+      });
+    });
 
     const canProceed = computed(() => {
       if (deliveryType.value === 'csa') {
-        return !!selectedCsa.value
+        return !!selectedCsa.value;
       } else if (deliveryType.value === 'home') {
-        return !!deliveryAddress.value // Endereço já está preenchido pelo prop
+        return !!deliveryAddress.value; // Endereço já está preenchido pelo prop
       }
-      return false
-    })
+      return false;
+    });
 
     const handleProceed = () => {
       if (canProceed.value) {
@@ -177,16 +183,16 @@ export default {
           deliveryType: deliveryType.value,
           deliveryPrediction: deliveryPrediction.value,
           csa: deliveryType.value === 'csa' ? selectedCsa.value : null,
-          address: deliveryType.value === 'home' ? deliveryAddress.value : null
-        }
-        emit('proceed', result)
+          address: deliveryType.value === 'home' ? deliveryAddress.value : null,
+        };
+        emit('proceed', result);
       }
-    }
+    };
 
     // Watcher para atualizar a previsão quando o tipo de entrega muda
     watch(deliveryType, (newType) => {
       // A previsão é recomputada automaticamente
-    })
+    });
 
     return {
       deliveryType,
@@ -195,10 +201,10 @@ export default {
       csaOptions,
       deliveryPredictionText,
       canProceed,
-      handleProceed
-    }
-  }
-}
+      handleProceed,
+    };
+  },
+};
 </script>
 
 <style scoped>

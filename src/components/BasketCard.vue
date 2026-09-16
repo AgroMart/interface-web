@@ -13,9 +13,12 @@
         cover
         class="basket-image"
       >
-        <template v-slot:placeholder>
+        <template #placeholder>
           <div class="d-flex align-center justify-center fill-height">
-            <v-icon size="64" color="grey-lighten-2">
+            <v-icon
+              size="64"
+              color="grey-lighten-2"
+            >
               mdi-basket-outline
             </v-icon>
           </div>
@@ -64,10 +67,17 @@
       </div>
 
       <!-- Informações da loja -->
-      <div v-if="basket.loja?.data" class="store-info">
-        <v-divider class="mb-2"></v-divider>
+      <div
+        v-if="basket.loja?.data"
+        class="store-info"
+      >
+        <v-divider class="mb-2" />
         <div class="d-flex align-center">
-          <v-icon size="small" class="mr-1" color="grey-darken-1">
+          <v-icon
+            size="small"
+            class="mr-1"
+            color="grey-darken-1"
+          >
             mdi-store
           </v-icon>
           <span class="text-caption text-grey-darken-1">
@@ -80,7 +90,10 @@
     <!-- Ações do card -->
     <v-card-actions class="pa-4 pt-0">
       <v-row>
-        <v-col cols="6" class="pa-1">
+        <v-col
+          cols="6"
+          class="pa-1"
+        >
           <v-btn
             color="primary"
             variant="outlined"
@@ -89,11 +102,16 @@
             :disabled="basket.quantidade === 0"
             @click.stop="$emit('checkout', basket)"
           >
-            <v-icon class="mr-2">mdi-truck-delivery</v-icon>
+            <v-icon class="mr-2">
+              mdi-truck-delivery
+            </v-icon>
             Pedir
           </v-btn>
         </v-col>
-        <v-col cols="6" class="pa-1">
+        <v-col
+          cols="6"
+          class="pa-1"
+        >
           <v-btn
             color="secondary"
             variant="outlined"
@@ -101,7 +119,9 @@
             size="large"
             @click.stop="$emit('edit', basket)"
           >
-            <v-icon class="mr-2">mdi-pencil</v-icon>
+            <v-icon class="mr-2">
+              mdi-pencil
+            </v-icon>
             Editar
           </v-btn>
         </v-col>
@@ -111,55 +131,55 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 export default {
   name: 'BasketCard',
   props: {
     basket: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   emits: ['click', 'edit', 'checkout'],
   setup(props) {
     const basketImage = computed(() => {
-      const images = props.basket.imagem?.data
+      const images = props.basket.imagem?.data;
       if (images && images.length > 0) {
-        const image = images[0]
+        const image = images[0];
         // Se for URL completa, usar diretamente
         if (image.attributes.url.startsWith('http')) {
-          return image.attributes.url
+          return image.attributes.url;
         }
         // Se for path relativo, construir URL completa
-        const baseUrl = process.env.VUE_APP_STRAPI_URL || 'http://localhost:1337'
-        return `${baseUrl}${image.attributes.url}`
+        const baseUrl = process.env.VUE_APP_STRAPI_URL || 'http://localhost:1337';
+        return `${baseUrl}${image.attributes.url}`;
       }
       // Imagem placeholder
-      return '/placeholder-basket.jpg'
-    })
+      return '/placeholder-basket.jpg';
+    });
 
     const truncatedDescription = computed(() => {
-      const desc = props.basket.descricao
-      if (!desc) return 'Cesta com produtos frescos e selecionados'
-      return desc.length > 120 ? `${desc.substring(0, 120)}...` : desc
-    })
+      const desc = props.basket.descricao;
+      if (!desc) return 'Cesta com produtos frescos e selecionados';
+      return desc.length > 120 ? `${desc.substring(0, 120)}...` : desc;
+    });
 
     const formatPrice = (price) => {
-      if (!price) return '0,00'
+      if (!price) return '0,00';
       return price.toLocaleString('pt-BR', {
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      })
-    }
+        maximumFractionDigits: 2,
+      });
+    };
 
     return {
       basketImage,
       truncatedDescription,
-      formatPrice
-    }
-  }
-}
+      formatPrice,
+    };
+  },
+};
 </script>
 
 <style scoped>

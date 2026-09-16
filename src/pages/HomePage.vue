@@ -2,7 +2,11 @@
   <DefaultLayout>
     <div class="home-page">
       <!-- Cabeçalho de boas-vindas -->
-      <v-card class="welcome-card mb-6" color="primary" dark>
+      <v-card
+        class="welcome-card mb-6"
+        color="primary"
+        dark
+      >
         <v-card-text class="pa-6">
           <div class="d-flex align-center">
             <div class="flex-grow-1">
@@ -13,7 +17,10 @@
                 Gerencie seus produtos e cestas de forma simples
               </p>
             </div>
-            <v-icon size="64" class="ml-4">
+            <v-icon
+              size="64"
+              class="ml-4"
+            >
               mdi-leaf
             </v-icon>
           </div>
@@ -22,10 +29,20 @@
 
       <!-- Cards de resumo -->
       <v-row class="mb-6">
-        <v-col cols="6" md="3">
-          <v-card class="summary-card text-center" elevation="2">
+        <v-col
+          cols="6"
+          md="3"
+        >
+          <v-card
+            class="summary-card text-center"
+            elevation="2"
+          >
             <v-card-text class="pa-4">
-              <v-icon size="40" color="success" class="mb-2">
+              <v-icon
+                size="40"
+                color="success"
+                class="mb-2"
+              >
                 mdi-package-variant
               </v-icon>
               <div class="text-h6 font-weight-bold">
@@ -38,10 +55,20 @@
           </v-card>
         </v-col>
 
-        <v-col cols="6" md="3">
-          <v-card class="summary-card text-center" elevation="2">
+        <v-col
+          cols="6"
+          md="3"
+        >
+          <v-card
+            class="summary-card text-center"
+            elevation="2"
+          >
             <v-card-text class="pa-4">
-              <v-icon size="40" color="orange" class="mb-2">
+              <v-icon
+                size="40"
+                color="orange"
+                class="mb-2"
+              >
                 mdi-basket
               </v-icon>
               <div class="text-h6 font-weight-bold">
@@ -54,10 +81,20 @@
           </v-card>
         </v-col>
 
-        <v-col cols="6" md="3">
-          <v-card class="summary-card text-center" elevation="2">
+        <v-col
+          cols="6"
+          md="3"
+        >
+          <v-card
+            class="summary-card text-center"
+            elevation="2"
+          >
             <v-card-text class="pa-4">
-              <v-icon size="40" color="info" class="mb-2">
+              <v-icon
+                size="40"
+                color="info"
+                class="mb-2"
+              >
                 mdi-clipboard-list
               </v-icon>
               <div class="text-h6 font-weight-bold">
@@ -70,10 +107,20 @@
           </v-card>
         </v-col>
 
-        <v-col cols="6" md="3">
-          <v-card class="summary-card text-center" elevation="2">
+        <v-col
+          cols="6"
+          md="3"
+        >
+          <v-card
+            class="summary-card text-center"
+            elevation="2"
+          >
             <v-card-text class="pa-4">
-              <v-icon size="40" color="primary" class="mb-2">
+              <v-icon
+                size="40"
+                color="primary"
+                class="mb-2"
+              >
                 mdi-store
               </v-icon>
               <div class="text-h6 font-weight-bold">
@@ -88,15 +135,23 @@
       </v-row>
 
       <!-- Ações rápidas -->
-      <v-card class="mb-6" elevation="2">
+      <v-card
+        class="mb-6"
+        elevation="2"
+      >
         <v-card-title class="text-h6 font-weight-bold">
-          <v-icon class="mr-2">mdi-lightning-bolt</v-icon>
+          <v-icon class="mr-2">
+            mdi-lightning-bolt
+          </v-icon>
           Ações Rápidas
         </v-card-title>
         
         <v-card-text class="pa-4">
           <v-row>
-            <v-col cols="6" md="3">
+            <v-col
+              cols="6"
+              md="3"
+            >
               <v-btn
                 color="success"
                 variant="outlined"
@@ -105,13 +160,18 @@
                 class="quick-action-btn"
                 @click="$router.push({ name: 'Produtos' })"
               >
-                <v-icon class="mb-1">mdi-plus</v-icon>
+                <v-icon class="mb-1">
+                  mdi-plus
+                </v-icon>
                 <br>
                 <span class="text-caption">Novo Produto</span>
               </v-btn>
             </v-col>
 
-            <v-col cols="6" md="3">
+            <v-col
+              cols="6"
+              md="3"
+            >
               <v-btn
                 color="orange"
                 variant="outlined"
@@ -120,13 +180,18 @@
                 class="quick-action-btn"
                 @click="$router.push({ name: 'Cestas' })"
               >
-                <v-icon class="mb-1">mdi-basket-plus</v-icon>
+                <v-icon class="mb-1">
+                  mdi-basket-plus
+                </v-icon>
                 <br>
                 <span class="text-caption">Nova Cesta</span>
               </v-btn>
             </v-col>
 
-            <v-col cols="6" md="3">
+            <v-col
+              cols="6"
+              md="3"
+            >
               <v-btn
                 color="info"
                 variant="outlined"
@@ -135,13 +200,18 @@
                 class="quick-action-btn"
                 @click="$router.push({ name: 'Pedidos' })"
               >
-                <v-icon class="mb-1">mdi-eye</v-icon>
+                <v-icon class="mb-1">
+                  mdi-eye
+                </v-icon>
                 <br>
                 <span class="text-caption">Ver Pedidos</span>
               </v-btn>
             </v-col>
 
-            <v-col cols="6" md="3">
+            <v-col
+              cols="6"
+              md="3"
+            >
               <v-btn
                 color="primary"
                 variant="outlined"
@@ -150,7 +220,9 @@
                 class="quick-action-btn"
                 @click="$router.push({ name: 'Loja' })"
               >
-                <v-icon class="mb-1">mdi-store-edit</v-icon>
+                <v-icon class="mb-1">
+                  mdi-store-edit
+                </v-icon>
                 <br>
                 <span class="text-caption">Editar Loja</span>
               </v-btn>
@@ -160,9 +232,15 @@
       </v-card>
 
       <!-- Produtos recentes -->
-      <v-card v-if="recentProducts.length > 0" class="mb-6" elevation="2">
+      <v-card
+        v-if="recentProducts.length > 0"
+        class="mb-6"
+        elevation="2"
+      >
         <v-card-title class="text-h6 font-weight-bold">
-          <v-icon class="mr-2">mdi-clock-outline</v-icon>
+          <v-icon class="mr-2">
+            mdi-clock-outline
+          </v-icon>
           Produtos Recentes
         </v-card-title>
         
@@ -186,9 +264,14 @@
       </v-card>
 
       <!-- Dicas para agricultores -->
-      <v-card class="tips-card" elevation="2">
+      <v-card
+        class="tips-card"
+        elevation="2"
+      >
         <v-card-title class="text-h6 font-weight-bold">
-          <v-icon class="mr-2">mdi-lightbulb-outline</v-icon>
+          <v-icon class="mr-2">
+            mdi-lightbulb-outline
+          </v-icon>
           Dicas para Você
         </v-card-title>
         
@@ -199,8 +282,10 @@
               :key="tip.id"
               class="px-0"
             >
-              <template v-slot:prepend>
-                <v-icon :color="tip.color">{{ tip.icon }}</v-icon>
+              <template #prepend>
+                <v-icon :color="tip.color">
+                  {{ tip.icon }}
+                </v-icon>
               </template>
               
               <v-list-item-title class="text-body-1">
@@ -219,28 +304,28 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
-import DefaultLayout from '../layouts/DefaultLayout.vue'
-import ProductCard from '../components/ProductCard.vue'
-import { useProductStore } from '../store/products'
-import { useStoreStore } from '../store/stores'
-import { useBasketStore } from '../store/baskets'
+import { computed, onMounted } from 'vue';
+import DefaultLayout from '../layouts/DefaultLayout.vue';
+import ProductCard from '../components/ProductCard.vue';
+import { useProductStore } from '../store/products';
+import { useStoreStore } from '../store/stores';
+import { useBasketStore } from '../store/baskets';
 
 export default {
   name: 'HomePage',
   components: {
     DefaultLayout,
-    ProductCard
+    ProductCard,
   },
   setup() {
-    const productStore = useProductStore()
-    const storeStore = useStoreStore()
-    const basketStore = useBasketStore()
+    const productStore = useProductStore();
+    const storeStore = useStoreStore();
+    const basketStore = useBasketStore();
 
     // Produtos recentes (últimos 3)
     const recentProducts = computed(() => {
-      return productStore.products.slice(0, 3)
-    })
+      return productStore.products.slice(0, 3);
+    });
 
     // Dicas para agricultores
     const tips = [
@@ -249,49 +334,49 @@ export default {
         icon: 'mdi-camera',
         color: 'success',
         title: 'Tire fotos atrativas',
-        description: 'Fotos bem iluminadas aumentam as vendas dos seus produtos'
+        description: 'Fotos bem iluminadas aumentam as vendas dos seus produtos',
       },
       {
         id: 2,
         icon: 'mdi-text-box',
         color: 'info',
         title: 'Descreva bem seus produtos',
-        description: 'Conte como são cultivados e seus benefícios'
+        description: 'Conte como são cultivados e seus benefícios',
       },
       {
         id: 3,
         icon: 'mdi-update',
         color: 'warning',
         title: 'Mantenha estoque atualizado',
-        description: 'Atualize as quantidades para evitar problemas'
+        description: 'Atualize as quantidades para evitar problemas',
       },
       {
         id: 4,
         icon: 'mdi-heart',
         color: 'error',
         title: 'Atenda bem seus clientes',
-        description: 'Um bom atendimento gera clientes fiéis'
-      }
-    ]
+        description: 'Um bom atendimento gera clientes fiéis',
+      },
+    ];
 
     const goToProduct = (product) => {
       // Navegar para detalhes do produto
-      console.log('Ver produto:', product)
-    }
+      console.log('Ver produto:', product);
+    };
 
     const editProduct = (product) => {
       // Navegar para edição do produto
-      console.log('Editar produto:', product)
-    }
+      console.log('Editar produto:', product);
+    };
 
     onMounted(async () => {
       // Carregar dados iniciais
       await Promise.all([
         productStore.fetchProducts(true), // Usar cache se disponível
         storeStore.fetchStores(true),
-        basketStore.fetchBaskets(true)
-      ])
-    })
+        basketStore.fetchBaskets(true),
+      ]);
+    });
 
     return {
       productStore,
@@ -300,10 +385,10 @@ export default {
       recentProducts,
       tips,
       goToProduct,
-      editProduct
-    }
-  }
-}
+      editProduct,
+    };
+  },
+};
 </script>
 
 <style scoped>

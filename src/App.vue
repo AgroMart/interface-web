@@ -5,17 +5,25 @@
       v-if="!appStore.isOnline" 
       class="connection-indicator"
     >
-      <v-icon small class="mr-1">mdi-wifi-off</v-icon>
+      <v-icon
+        small
+        class="mr-1"
+      >
+        mdi-wifi-off
+      </v-icon>
       Sem conexão com a internet
     </div>
 
     <!-- Loading global -->
-    <div v-if="appStore.isLoading" class="loading-overlay">
+    <div
+      v-if="appStore.isLoading"
+      class="loading-overlay"
+    >
       <v-progress-circular
         indeterminate
         size="64"
         color="primary"
-      ></v-progress-circular>
+      />
     </div>
 
     <!-- Layout principal -->
@@ -52,7 +60,7 @@
     >
       {{ appStore.snackbar.message }}
       
-      <template v-slot:actions>
+      <template #actions>
         <v-btn
           variant="text"
           @click="appStore.hideSnackbar()"
@@ -65,17 +73,17 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import { useAppStore } from './store/app'
-import { useAuthStore } from './store/auth'
+import { computed, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useAppStore } from './store/app';
+import { useAuthStore } from './store/auth';
 
 export default {
   name: 'App',
   setup() {
-    const route = useRoute()
-    const appStore = useAppStore()
-    const authStore = useAuthStore()
+    const route = useRoute();
+    const appStore = useAppStore();
+    const authStore = useAuthStore();
 
     // Rotas principais para navegação inferior
     const mainRoutes = [
@@ -83,32 +91,32 @@ export default {
       { name: 'Produtos', meta: { title: 'Produtos', icon: 'mdi-package-variant' } },
       { name: 'Cestas', meta: { title: 'Cestas', icon: 'mdi-basket' } },
       { name: 'Pedidos', meta: { title: 'Pedidos', icon: 'mdi-clipboard-list' } },
-      { name: 'Perfil', meta: { title: 'Perfil', icon: 'mdi-account' } }
-    ]
+      { name: 'Perfil', meta: { title: 'Perfil', icon: 'mdi-account' } },
+    ];
 
     const currentRoute = computed({
       get: () => route.name,
-      set: () => {} // Navegação é feita pelo click do botão
-    })
+      set: () => {}, // Navegação é feita pelo click do botão
+    });
 
     // Mostrar navegação apenas se estiver autenticado e não estiver na página de login
     const showNavigation = computed(() => {
-      return authStore.isAuthenticated && route.name !== 'Login'
-    })
+      return authStore.isAuthenticated && route.name !== 'Login';
+    });
 
     onMounted(() => {
       // Inicializar store da aplicação
-      appStore.init()
-    })
+      appStore.init();
+    });
 
     return {
       appStore,
       mainRoutes,
       currentRoute,
-      showNavigation
-    }
-  }
-}
+      showNavigation,
+    };
+  },
+};
 </script>
 
 <style scoped>

@@ -11,7 +11,7 @@
         {{ pageTitle }}
       </v-app-bar-title>
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
       <!-- Indicador de sincronização -->
       <v-btn
@@ -21,14 +21,17 @@
         color="warning"
       >
         <v-icon>mdi-cloud-off-outline</v-icon>
-        <v-tooltip activator="parent" location="bottom">
+        <v-tooltip
+          activator="parent"
+          location="bottom"
+        >
           Modo offline - dados salvos localmente
         </v-tooltip>
       </v-btn>
 
       <!-- Menu de opções -->
       <v-menu>
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <v-btn
             icon
             v-bind="props"
@@ -40,23 +43,32 @@
         <v-list>
           <v-list-item @click="refreshData">
             <v-list-item-title>
-              <v-icon class="mr-2">mdi-refresh</v-icon>
+              <v-icon class="mr-2">
+                mdi-refresh
+              </v-icon>
               Atualizar dados
             </v-list-item-title>
           </v-list-item>
           
           <v-list-item @click="clearCache">
             <v-list-item-title>
-              <v-icon class="mr-2">mdi-delete-sweep</v-icon>
+              <v-icon class="mr-2">
+                mdi-delete-sweep
+              </v-icon>
               Limpar cache
             </v-list-item-title>
           </v-list-item>
 
-          <v-divider class="my-2"></v-divider>
+          <v-divider class="my-2" />
           
           <v-list-item @click="handleLogout">
             <v-list-item-title>
-              <v-icon class="mr-2" color="error">mdi-logout</v-icon>
+              <v-icon
+                class="mr-2"
+                color="error"
+              >
+                mdi-logout
+              </v-icon>
               Sair
             </v-list-item-title>
           </v-list-item>
@@ -66,7 +78,10 @@
 
     <!-- Conteúdo principal -->
     <v-main>
-      <v-container fluid class="pa-4">
+      <v-container
+        fluid
+        class="pa-4"
+      >
         <slot />
       </v-container>
     </v-main>
@@ -74,64 +89,64 @@
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useAppStore } from '../store/app'
-import { useAuthStore } from '../store/auth'
-import { useProductStore } from '../store/products'
-import { useStoreStore } from '../store/stores'
-import { useBasketStore } from '../store/baskets'
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useAppStore } from '../store/app';
+import { useAuthStore } from '../store/auth';
+import { useProductStore } from '../store/products';
+import { useStoreStore } from '../store/stores';
+import { useBasketStore } from '../store/baskets';
 
 export default {
   name: 'DefaultLayout',
   setup() {
-    const route = useRoute()
-    const router = useRouter()
-    const appStore = useAppStore()
-    const authStore = useAuthStore()
-    const productStore = useProductStore()
-    const storeStore = useStoreStore()
-    const basketStore = useBasketStore()
+    const route = useRoute();
+    const router = useRouter();
+    const appStore = useAppStore();
+    const authStore = useAuthStore();
+    const productStore = useProductStore();
+    const storeStore = useStoreStore();
+    const basketStore = useBasketStore();
 
     const pageTitle = computed(() => {
-      return route.meta?.title || 'AgroMart'
-    })
+      return route.meta?.title || 'AgroMart';
+    });
 
     const refreshData = async () => {
       try {
         await Promise.all([
           productStore.fetchProducts(),
           storeStore.fetchStores(),
-          basketStore.fetchBaskets()
-        ])
-        appStore.showSnackbar('Dados atualizados com sucesso', 'success')
+          basketStore.fetchBaskets(),
+        ]);
+        appStore.showSnackbar('Dados atualizados com sucesso', 'success');
       } catch (error) {
-        appStore.showSnackbar('Erro ao atualizar dados', 'error')
+        appStore.showSnackbar('Erro ao atualizar dados', 'error');
       }
-    }
+    };
 
     const clearCache = () => {
-      productStore.clearCache()
-      storeStore.clearCache()
-      basketStore.clearCache()
-      appStore.showSnackbar('Cache limpo com sucesso', 'success')
-    }
+      productStore.clearCache();
+      storeStore.clearCache();
+      basketStore.clearCache();
+      appStore.showSnackbar('Cache limpo com sucesso', 'success');
+    };
 
     const handleLogout = () => {
-      authStore.logout()
-      router.push('/login')
-      appStore.showSnackbar('Logout realizado com sucesso', 'success')
-    }
+      authStore.logout();
+      router.push('/login');
+      appStore.showSnackbar('Logout realizado com sucesso', 'success');
+    };
 
     return {
       appStore,
       pageTitle,
       refreshData,
       clearCache,
-      handleLogout
-    }
-  }
-}
+      handleLogout,
+    };
+  },
+};
 </script>
 
 <style scoped>

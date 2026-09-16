@@ -17,16 +17,24 @@
           size="large"
           @click="showCreateDialog = true"
         >
-          <v-icon class="mr-2">mdi-plus</v-icon>
+          <v-icon class="mr-2">
+            mdi-plus
+          </v-icon>
           Novo Produto
         </v-btn>
       </div>
 
       <!-- Filtros e busca -->
-      <v-card class="mb-4" elevation="1">
+      <v-card
+        class="mb-4"
+        elevation="1"
+      >
         <v-card-text class="pa-4">
           <v-row align="center">
-            <v-col cols="12" md="6">
+            <v-col
+              cols="12"
+              md="6"
+            >
               <v-text-field
                 v-model="searchQuery"
                 label="Buscar produtos"
@@ -35,10 +43,13 @@
                 density="comfortable"
                 hide-details
                 clearable
-              ></v-text-field>
+              />
             </v-col>
             
-            <v-col cols="12" md="3">
+            <v-col
+              cols="12"
+              md="3"
+            >
               <v-select
                 v-model="statusFilter"
                 :items="statusOptions"
@@ -46,10 +57,13 @@
                 variant="outlined"
                 density="comfortable"
                 hide-details
-              ></v-select>
+              />
             </v-col>
             
-            <v-col cols="12" md="3">
+            <v-col
+              cols="12"
+              md="3"
+            >
               <v-select
                 v-model="sortBy"
                 :items="sortOptions"
@@ -57,7 +71,7 @@
                 variant="outlined"
                 density="comfortable"
                 hide-details
-              ></v-select>
+              />
             </v-col>
           </v-row>
         </v-card-text>
@@ -124,13 +138,13 @@
 </template>
 
 <script>
-import { ref, computed,/* onMounted,*/ onBeforeMount } from 'vue'
-import DefaultLayout from '../layouts/DefaultLayout.vue'
-import ProductCard from '../components/ProductCard.vue'
-import LoadingCard from '../components/LoadingCard.vue'
-import EmptyState from '../components/EmptyState.vue'
-import ProductForm from '../components/ProductForm.vue'
-import { useProductStore } from '../store/products'
+import { ref, computed,/* onMounted,*/ onBeforeMount } from 'vue';
+import DefaultLayout from '../layouts/DefaultLayout.vue';
+import ProductCard from '../components/ProductCard.vue';
+import LoadingCard from '../components/LoadingCard.vue';
+import EmptyState from '../components/EmptyState.vue';
+import ProductForm from '../components/ProductForm.vue';
+import { useProductStore } from '../store/products';
 
 export default {
   name: 'ProductsPage',
@@ -139,121 +153,121 @@ export default {
     ProductCard,
     LoadingCard,
     EmptyState,
-    ProductForm
+    ProductForm,
   },
   setup() {
-    const productStore = useProductStore()
+    const productStore = useProductStore();
     
     // Estado local
-    const searchQuery = ref('')
-    const statusFilter = ref('all')
-    const sortBy = ref('name')
-    const showCreateDialog = ref(false)
-    const selectedProduct = ref(null)
+    const searchQuery = ref('');
+    const statusFilter = ref('all');
+    const sortBy = ref('name');
+    const showCreateDialog = ref(false);
+    const selectedProduct = ref(null);
 
     // Opções de filtro
     const statusOptions = [
       { title: 'Todos', value: 'all' },
       { title: 'Disponível', value: 'available' },
       { title: 'Esgotado', value: 'out_of_stock' },
-      { title: 'Pouco estoque', value: 'low_stock' }
-    ]
+      { title: 'Pouco estoque', value: 'low_stock' },
+    ];
 
     const sortOptions = [
       { title: 'Nome', value: 'name' },
       { title: 'Preço (menor)', value: 'price_asc' },
       { title: 'Preço (maior)', value: 'price_desc' },
-      { title: 'Quantidade', value: 'quantity' }
-    ]
+      { title: 'Quantidade', value: 'quantity' },
+    ];
 
     // Produtos filtrados
     const filteredProducts = computed(() => {
-      let products = [...productStore.products]
+      let products = [...productStore.products];
 
       // Filtro por busca
       if (searchQuery.value) {
-        const query = searchQuery.value.toLowerCase()
+        const query = searchQuery.value.toLowerCase();
         products = products.filter(product =>
           product.nome.toLowerCase().includes(query) || // product.attributes -> product
-          product.descricao?.toLowerCase().includes(query)
-        )
+          product.descricao?.toLowerCase().includes(query),
+        );
       }
 
       // Filtro por status
       if (statusFilter.value !== 'all') {
         products = products.filter(product => {
-          const quantity = product.quantidade  // era product.attributes virou product
+          const quantity = product.quantidade;  // era product.attributes virou product
           switch (statusFilter.value) {
-            case 'available':
-              return quantity > 0
-            case 'out_of_stock':
-              return quantity === 0
-            case 'low_stock':
-              return quantity > 0 && quantity <= 5
-            default:
-              return true
+          case 'available':
+            return quantity > 0;
+          case 'out_of_stock':
+            return quantity === 0;
+          case 'low_stock':
+            return quantity > 0 && quantity <= 5;
+          default:
+            return true;
           }
-        })
+        });
       }
 
       // Ordenação
       // colocar ordenação por data de criação
       products.sort((a, b) => {
         switch (sortBy.value) {
-          case 'name':
-            return a.nome.localeCompare(b.nome)  // era tudo a e b.attributes -> saiu attributes
-          case 'price_asc':
-            return (a.valor || 0) - (b.valor || 0)
-          case 'price_desc':
-            return (b.valor || 0) - (a.valor || 0)
-          case 'quantity':
-            return (b.quantidade || 0) - (a.quantidade || 0)
-          default:
-            return 0
+        case 'name':
+          return a.nome.localeCompare(b.nome);  // era tudo a e b.attributes -> saiu attributes
+        case 'price_asc':
+          return (a.valor || 0) - (b.valor || 0);
+        case 'price_desc':
+          return (b.valor || 0) - (a.valor || 0);
+        case 'quantity':
+          return (b.quantidade || 0) - (a.quantidade || 0);
+        default:
+          return 0;
         }
-      })
+      });
 
-      return products
-    })
+      return products;
+    });
 
     // Ações
     const viewProduct = (product) => {
-      console.log('Ver produto:', product)
+      console.log('Ver produto:', product);
       // Implementar visualização detalhada
-    }
+    };
 
     const editProduct = (product) => {
-      selectedProduct.value = product
-      showCreateDialog.value = true
-    }
+      selectedProduct.value = product;
+      showCreateDialog.value = true;
+    };
 
     const handleSaveProduct = async (productData) => {
       try {
         if (selectedProduct.value) {
           // Editar produto existente
-          await productStore.updateProduct(selectedProduct.value.id, productData)
+          await productStore.updateProduct(selectedProduct.value.id, productData);
         } else {
           // Criar novo produto
-          await productStore.createProduct(productData)
+          await productStore.createProduct(productData);
         }
         
-        showCreateDialog.value = false
-        selectedProduct.value = null
+        showCreateDialog.value = false;
+        selectedProduct.value = null;
       } catch (error) {
-        console.error('Erro ao salvar produto:', error)
+        console.error('Erro ao salvar produto:', error);
       }
-    }
+    };
 
     const handleCancelProduct = () => {
-      showCreateDialog.value = false
-      selectedProduct.value = null
-    }
+      showCreateDialog.value = false;
+      selectedProduct.value = null;
+    };
 
     // onMounted(async () => {  // estava assim antes
     onBeforeMount(async () => {
       // Carregar produtos
-      await productStore.fetchProducts()
-    })
+      await productStore.fetchProducts();
+    });
 
     return {
       productStore,
@@ -268,10 +282,10 @@ export default {
       viewProduct,
       editProduct,
       handleSaveProduct,
-      handleCancelProduct
-    }
-  }
-}
+      handleCancelProduct,
+    };
+  },
+};
 </script>
 
 <style scoped>

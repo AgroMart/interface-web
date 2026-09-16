@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const getApiBaseUrl = () => {
   if (process.env.VUE_APP_STRAPI_API_URL) {
@@ -25,76 +25,76 @@ const api = axios.create({
 // Adicionar token JWT nas requisições
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('agromart_token')
+    const token = localStorage.getItem('agromart_token');
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+      config.headers.Authorization = `Bearer ${token}`;
     }
-    return config
+    return config;
   },
   (error) => {
-    return Promise.reject(error)
-  }
-)
+    return Promise.reject(error);
+  },
+);
 
 // Estado global para controle de loading
-let loadingCount = 0
-const loadingCallbacks = []
+let loadingCount = 0;
+const loadingCallbacks = [];
 
 // Função para adicionar callback de loading
 export const onLoadingChange = (callback) => {
-  loadingCallbacks.push(callback)
-}
+  loadingCallbacks.push(callback);
+};
 
 // Função para notificar mudanças no loading
 const notifyLoadingChange = (isLoading) => {
-  loadingCallbacks.forEach(callback => callback(isLoading))
-}
+  loadingCallbacks.forEach(callback => callback(isLoading));
+};
 
 // Interceptor para requisições - ativar loading
 api.interceptors.request.use(
   (config) => {
-    loadingCount++
+    loadingCount++;
     if (loadingCount === 1) {
-      notifyLoadingChange(true)
+      notifyLoadingChange(true);
     }
-    return config
+    return config;
   },
   (error) => {
-    loadingCount--
+    loadingCount--;
     if (loadingCount === 0) {
-      notifyLoadingChange(false)
+      notifyLoadingChange(false);
     }
-    return Promise.reject(error)
-  }
-)
+    return Promise.reject(error);
+  },
+);
 
 // Interceptor para respostas - desativar loading e tratar erros
 api.interceptors.response.use(
   (response) => {
-    loadingCount--
+    loadingCount--;
     if (loadingCount === 0) {
-      notifyLoadingChange(false)
+      notifyLoadingChange(false);
     }
-    return response
+    return response;
   },
   (error) => {
-    loadingCount--
+    loadingCount--;
     if (loadingCount === 0) {
-      notifyLoadingChange(false)
+      notifyLoadingChange(false);
     }
     
     // Tratamento de erros específicos
     if (error.code === 'ECONNABORTED') {
-      console.error('Timeout: A conexão demorou muito para responder')
+      console.error('Timeout: A conexão demorou muito para responder');
     } else if (!error.response) {
-      console.error('Erro de rede: Verifique sua conexão com a internet')
+      console.error('Erro de rede: Verifique sua conexão com a internet');
     } else {
-      console.error('Erro na API:', error.response.status, error.response.data)
+      console.error('Erro na API:', error.response.status, error.response.data);
     }
     
-    return Promise.reject(error)
-  }
-)
+    return Promise.reject(error);
+  },
+);
 
 // Funções para consumir os endpoints da API Strapi
 export const apiService = {
@@ -103,29 +103,29 @@ export const apiService = {
     return api.get('/produtos-avulsos', {
       params: {
         populate: ['imagem', 'loja'],
-        ...params
-      }
-    })
+        ...params,
+      },
+    });
   },
   
   getProduct: (id) => {
     return api.get(`/produtos-avulsos/${id}`, {
       params: {
-        populate: ['imagem', 'loja']
-      }
-    })
+        populate: ['imagem', 'loja'],
+      },
+    });
   },
   
   createProduct: (data) => {
-    return api.post('/produtos-avulsos', { data })
+    return api.post('/produtos-avulsos', { data });
   },
   
   updateProduct: (id, data) => {
-    return api.put(`/produtos-avulsos/${id}`, { data })
+    return api.put(`/produtos-avulsos/${id}`, { data });
   },
   
   deleteProduct: (id) => {
-    return api.delete(`/produtos-avulsos/${id}`)
+    return api.delete(`/produtos-avulsos/${id}`);
   },
 
   // Lojas
@@ -133,21 +133,21 @@ export const apiService = {
     return api.get('/lojas', { 
       params: {
         populate: ['banner', 'endereco', 'cestas', 'produto_avulsos'],
-        ...params
-      }
-    })
+        ...params,
+      },
+    });
   },
   
   getStore: (id) => {
     return api.get(`/lojas/${id}`, {
       params: {
-        populate: ['banner', 'endereco', 'cestas', 'produto_avulsos', 'planos']
-      }
-    })
+        populate: ['banner', 'endereco', 'cestas', 'produto_avulsos', 'planos'],
+      },
+    });
   },
   
   updateStore: (id, data) => {
-    return api.put(`/lojas/${id}`, { data })
+    return api.put(`/lojas/${id}`, { data });
   },
 
   // Cestas
@@ -155,29 +155,29 @@ export const apiService = {
     return api.get('/cestas', { 
       params: {
         populate: ['imagem', 'loja'],
-        ...params
-      }
-    })
+        ...params,
+      },
+    });
   },
   
   getBasket: (id) => {
     return api.get(`/cestas/${id}`, {
       params: {
-        populate: ['imagem', 'loja']
-      }
-    })
+        populate: ['imagem', 'loja'],
+      },
+    });
   },
   
   createBasket: (data) => {
-    return api.post('/cestas', { data })
+    return api.post('/cestas', { data });
   },
   
   updateBasket: (id, data) => {
-    return api.put(`/cestas/${id}`, { data })
+    return api.put(`/cestas/${id}`, { data });
   },
   
   deleteBasket: (id) => {
-    return api.delete(`/cestas/${id}`)
+    return api.delete(`/cestas/${id}`);
   },
 
   // Planos
@@ -185,17 +185,17 @@ export const apiService = {
     return api.get('/planos', { 
       params: {
         populate: ['imagem', 'lojas', 'assinantes'],
-        ...params
-      }
-    })
+        ...params,
+      },
+    });
   },
   
   getPlan: (id) => {
     return api.get(`/planos/${id}`, {
       params: {
-        populate: ['imagem', 'lojas', 'assinantes']
-      }
-    })
+        populate: ['imagem', 'lojas', 'assinantes'],
+      },
+    });
   },
 
   // Assinantes
@@ -203,31 +203,31 @@ export const apiService = {
     return api.get('/assinantes', { 
       params: {
         populate: ['usuario', 'planos', 'lojas'],
-        ...params
-      }
-    })
+        ...params,
+      },
+    });
   },
   
   getSubscriber: (id) => {
     return api.get(`/assinantes/${id}`, {
       params: {
-        populate: ['usuario', 'planos', 'lojas']
-      }
-    })
+        populate: ['usuario', 'planos', 'lojas'],
+      },
+    });
   },
 
   // Upload de arquivos
   uploadFile: (file) => {
-    const formData = new FormData()
-    formData.append('files', file)
+    const formData = new FormData();
+    formData.append('files', file);
     
     return api.post('/upload', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-  }
-}
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+};
 
 // Serviços de autenticação
 export const authService = {
@@ -235,8 +235,8 @@ export const authService = {
   login: (credentials) => {
     return api.post('/auth/local', {
       identifier: credentials.identifier, // email ou username
-      password: credentials.password
-    })
+      password: credentials.password,
+    });
   },
 
   // Registro
@@ -244,30 +244,30 @@ export const authService = {
     return api.post('/auth/local/register', {
       username: userData.username,
       email: userData.email,
-      password: userData.password
-    })
+      password: userData.password,
+    });
   },
 
   // Obter dados do usuário atual
   getMe: () => {
     return api.get('/users/me', {
       params: {
-        populate: ['role', 'loja']
-      }
-    })
+        populate: ['role', 'loja'],
+      },
+    });
   },
 
   // Atualizar dados do usuário
   updateMe: (userData) => {
-    const userId = JSON.parse(localStorage.getItem('agromart_user'))?.id
-    return api.put(`/users/${userId}`, userData)
+    const userId = JSON.parse(localStorage.getItem('agromart_user'))?.id;
+    return api.put(`/users/${userId}`, userData);
   },
 
   // Recuperar senha
   forgotPassword: (email) => {
     return api.post('/auth/forgot-password', {
-      email: email
-    })
+      email: email,
+    });
   },
 
   // Resetar senha
@@ -275,8 +275,8 @@ export const authService = {
     return api.post('/auth/reset-password', {
       code: data.code,
       password: data.password,
-      passwordConfirmation: data.passwordConfirmation
-    })
+      passwordConfirmation: data.passwordConfirmation,
+    });
   },
 
   // Alterar senha
@@ -284,10 +284,10 @@ export const authService = {
     return api.post('/auth/change-password', {
       currentPassword,
       password: newPassword,
-      passwordConfirmation: newPasswordConfirmation
-    })
-  }
-}
+      passwordConfirmation: newPasswordConfirmation,
+    });
+  },
+};
 
-export default api
+export default api;
 

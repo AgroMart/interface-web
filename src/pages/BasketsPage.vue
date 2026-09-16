@@ -17,16 +17,24 @@
           size="large"
           @click="showCreateDialog = true"
         >
-          <v-icon class="mr-2">mdi-plus</v-icon>
+          <v-icon class="mr-2">
+            mdi-plus
+          </v-icon>
           Nova Cesta
         </v-btn>
       </div>
 
       <!-- Filtros e busca -->
-      <v-card class="mb-4" elevation="1">
+      <v-card
+        class="mb-4"
+        elevation="1"
+      >
         <v-card-text class="pa-4">
           <v-row align="center">
-            <v-col cols="12" md="6">
+            <v-col
+              cols="12"
+              md="6"
+            >
               <v-text-field
                 v-model="searchQuery"
                 label="Buscar cestas"
@@ -35,10 +43,13 @@
                 density="comfortable"
                 hide-details
                 clearable
-              ></v-text-field>
+              />
             </v-col>
             
-            <v-col cols="12" md="3">
+            <v-col
+              cols="12"
+              md="3"
+            >
               <v-select
                 v-model="statusFilter"
                 :items="statusOptions"
@@ -46,10 +57,13 @@
                 variant="outlined"
                 density="comfortable"
                 hide-details
-              ></v-select>
+              />
             </v-col>
             
-            <v-col cols="12" md="3">
+            <v-col
+              cols="12"
+              md="3"
+            >
               <v-select
                 v-model="sortBy"
                 :items="sortOptions"
@@ -57,7 +71,7 @@
                 variant="outlined"
                 density="comfortable"
                 hide-details
-              ></v-select>
+              />
             </v-col>
           </v-row>
         </v-card-text>
@@ -102,7 +116,8 @@
           <BasketCard
             :basket="basket"
             @click="viewBasket"
-            @edit="editBasket" @checkout="handleCheckout"
+            @edit="editBasket"
+            @checkout="handleCheckout"
           />
         </v-col>
       </v-row>
@@ -136,15 +151,15 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
-import DefaultLayout from '../layouts/DefaultLayout.vue'
-import BasketCard from '../components/BasketCard.vue'
-import LoadingCard from '../components/LoadingCard.vue'
-import EmptyState from '../components/EmptyState.vue'
-import BasketForm from '../components/BasketForm.vue'
-import DeliverySelection from '../components/DeliverySelection.vue'
-import { useBasketStore } from '../store/baskets'
-import { useAppStore } from '../store/app'
+import { ref, computed, onMounted } from 'vue';
+import DefaultLayout from '../layouts/DefaultLayout.vue';
+import BasketCard from '../components/BasketCard.vue';
+import LoadingCard from '../components/LoadingCard.vue';
+import EmptyState from '../components/EmptyState.vue';
+import BasketForm from '../components/BasketForm.vue';
+import DeliverySelection from '../components/DeliverySelection.vue';
+import { useBasketStore } from '../store/baskets';
+import { useAppStore } from '../store/app';
 
 export default {
   name: 'BasketsPage',
@@ -154,80 +169,80 @@ export default {
     LoadingCard,
     EmptyState,
     BasketForm,
-    DeliverySelection
+    DeliverySelection,
   },
   setup() {
-    const basketStore = useBasketStore()
-    const appStore = useAppStore()
+    const basketStore = useBasketStore();
+    const appStore = useAppStore();
     
     // Estado local
-    const searchQuery = ref('')
-    const statusFilter = ref('all')
-    const sortBy = ref('price_desc')
-    const showCreateDialog = ref(false)
-    const selectedBasket = ref(null)
-    const showDeliveryDialog = ref(false)
-    const deliveryDetails = ref(null)
+    const searchQuery = ref('');
+    const statusFilter = ref('all');
+    const sortBy = ref('price_desc');
+    const showCreateDialog = ref(false);
+    const selectedBasket = ref(null);
+    const showDeliveryDialog = ref(false);
+    const deliveryDetails = ref(null);
 
     // Opções de filtro
     const statusOptions = [
       { title: 'Todas', value: 'all' },
       { title: 'Disponível', value: 'available' },
       { title: 'Esgotado', value: 'out_of_stock' },
-      { title: 'Pouco estoque', value: 'low_stock' }
-    ]
+      { title: 'Pouco estoque', value: 'low_stock' },
+    ];
 
     const sortOptions = [
       { title: 'Preço (menor)', value: 'price_asc' },
       { title: 'Preço (maior)', value: 'price_desc' },
-      { title: 'Quantidade', value: 'quantity' }
-    ]
+      { title: 'Quantidade', value: 'quantity' },
+    ];
 
     // Cestas filtradas
     const filteredBaskets = computed(() => {
-      let baskets = [...basketStore.baskets]
+      let baskets = [...basketStore.baskets];
 
       // Filtro por busca
       if (searchQuery.value) {
-        const query = searchQuery.value.toLowerCase()
+        const query = searchQuery.value.toLowerCase();
         baskets = baskets.filter(basket =>
-          basket.descricao?.toLowerCase().includes(query)
-        )
+          basket.descricao?.toLowerCase().includes(query),
+        );
       }
 
       // Filtro por status
       if (statusFilter.value !== 'all') {
         baskets = baskets.filter(basket => {
-          const quantity = basket.quantidade
+          const quantity = basket.quantidade;
           switch (statusFilter.value) {
-            case 'available':
-              return quantity > 0
-            case 'out_of_stock':
-              return quantity === 0
-            case 'low_stock':
-              return quantity > 0 && quantity <= 5
-            default:
-              return true
+          case 'available':
+            return quantity > 0;
+          case 'out_of_stock':
+            return quantity === 0;
+          case 'low_stock':
+            return quantity > 0 && quantity <= 5;
+          default:
+            return true;
           }
-        })
+        });
       }
 
       // Ordenação
       baskets.sort((a, b) => {
         switch (sortBy.value) {
-          case 'price_asc':
-            return (a.attributes.valor || 0) - (b.attributes.valor || 0)
-          case 'price_desc':
-            return (b.attributes.valor || 0) - (a.attributes.valor || 0)
-          case 'quantity':
-            return (b.attributes.quantidade || 0) - (a.attributes.quantidade || 0)
-          default:
-            return 0
+        case 'price_asc':
+          return (a.attributes.valor || 0) - (b.attributes.valor || 0);
+        case 'price_desc':
+          return (b.attributes.valor || 0) - (a.attributes.valor || 0);
+        case 'quantity':
+          return (b.attributes.quantidade || 0) - (a.attributes.quantidade || 0);
+        default:
+          return 0;
         }
-      })
+      });
 
-      return baskets
-    })
+      return baskets;
+    });
 
     // Ações
     const handleCheckout = (basket) => {
@@ -240,7 +255,7 @@ export default {
       showDeliveryDialog.value = false;
       console.log('Detalhes da Entrega:', details);
       console.log('Cesta para Checkout:', selectedBasket.value);
-      appStore.showSnackbar('Seleção de entrega concluída. Próxima etapa: Finalização do Pedido.', 'success')
+      appStore.showSnackbar('Seleção de entrega concluída. Próxima etapa: Finalização do Pedido.', 'success');
       selectedBasket.value = null;
       deliveryDetails.value = null;
     };
@@ -252,41 +267,41 @@ export default {
     };
 
     const viewBasket = (basket) => {
-      console.log('Ver cesta:', basket)
+      console.log('Ver cesta:', basket);
       // Implementar visualização detalhada
-    }
+    };
 
     const editBasket = (basket) => {
-      selectedBasket.value = basket
-      showCreateDialog.value = true
-    }
+      selectedBasket.value = basket;
+      showCreateDialog.value = true;
+    };
 
     const handleSaveBasket = async (basketData) => {
       try {
         if (selectedBasket.value) {
           // Editar cesta existente
-          await basketStore.updateBasket(selectedBasket.value.id, basketData)
+          await basketStore.updateBasket(selectedBasket.value.id, basketData);
         } else {
           // Criar nova cesta
-          await basketStore.createBasket(basketData)
+          await basketStore.createBasket(basketData);
         }
         
-        showCreateDialog.value = false
-        selectedBasket.value = null
+        showCreateDialog.value = false;
+        selectedBasket.value = null;
       } catch (error) {
-        console.error('Erro ao salvar cesta:', error)
+        console.error('Erro ao salvar cesta:', error);
       }
-    }
+    };
 
     const handleCancelBasket = () => {
-      showCreateDialog.value = false
-      selectedBasket.value = null
-    }
+      showCreateDialog.value = false;
+      selectedBasket.value = null;
+    };
 
     onMounted(async () => {
       // Carregar cestas
-      await basketStore.fetchBaskets()
-    })
+      await basketStore.fetchBaskets();
+    });
 
     return {
       basketStore,
@@ -306,10 +321,10 @@ export default {
       handleDeliveryProceed,
       handleDeliveryCancel,
       showDeliveryDialog,
-      deliveryDetails
-    }
-  }
-}
+      deliveryDetails,
+    };
+  },
+};
 </script>
 
 <style scoped>
