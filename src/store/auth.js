@@ -1,3 +1,4 @@
+import { backendStorage } from '@/services/backend';
 import { defineStore } from 'pinia';
 import { authService } from '@/services/api';
 
@@ -19,19 +20,19 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
-    // Inicializar autenticação do localStorage
+    // Inicializar autenticação do backendStorage
     async initAuth() {
-      const token = localStorage.getItem('agromart_token');
-      const user = localStorage.getItem('agromart_user');
+      const token = backendStorage.getItem('agromart_token');
+      const user = backendStorage.getItem('agromart_user');
       
       if (token && user) {
         this.token = token;
-        this.user = JSON.parse(user);
+        try { this.user = JSON.parse(user); } catch { this.logout(); return; }
         this.isAuthenticated = true;
         
         // Validar token com o servidor
         try {
-          await this.validateToken();
+          if (!await this.validateToken()) this.logout();
         } catch (error) {
           console.error('Token inválido:', error);
           this.logout();
@@ -53,15 +54,15 @@ export const useAuthStore = defineStore('auth', {
         this.user = user;
         this.isAuthenticated = true;
         
-        // Persistir no localStorage
-        localStorage.setItem('agromart_token', jwt);
-        localStorage.setItem('agromart_user', JSON.stringify(user));
+        // Persistir no backendStorage
+        backendStorage.setItem('agromart_token', jwt);
+        backendStorage.setItem('agromart_user', JSON.stringify(user));
         
         this.loading = false;
         return { success: true, user };
       } catch (error) {
         this.loading = false;
-        this.error = error.response?.data?.error?.message || 'Erro ao fazer login';
+        this.error = error.response?.data?.error?.message || error.response?.data?.message || error.message || 'Erro ao fazer login';
         console.error('Erro no login:', error);
         return { success: false, error: this.error };
       }
@@ -81,15 +82,15 @@ export const useAuthStore = defineStore('auth', {
         this.user = user;
         this.isAuthenticated = true;
         
-        // Persistir no localStorage
-        localStorage.setItem('agromart_token', jwt);
-        localStorage.setItem('agromart_user', JSON.stringify(user));
+        // Persistir no backendStorage
+        backendStorage.setItem('agromart_token', jwt);
+        backendStorage.setItem('agromart_user', JSON.stringify(user));
         
         this.loading = false;
         return { success: true, user };
       } catch (error) {
         this.loading = false;
-        this.error = error.response?.data?.error?.message || 'Erro ao criar conta';
+        this.error = error.response?.data?.error?.message || error.response?.data?.message || error.message || 'Erro ao criar conta';
         console.error('Erro no registro:', error);
         return { success: false, error: this.error };
       }
@@ -102,9 +103,9 @@ export const useAuthStore = defineStore('auth', {
       this.isAuthenticated = false;
       this.error = null;
       
-      // Limpar localStorage
-      localStorage.removeItem('agromart_token');
-      localStorage.removeItem('agromart_user');
+      // Limpar backendStorage
+      backendStorage.removeItem('agromart_token');
+      backendStorage.removeItem('agromart_user');
     },
 
     // Validar token
@@ -112,6 +113,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response = await authService.getMe();
         this.user = response.data;
+        backendStorage.setItem('agromart_user', JSON.stringify(this.user));
         return true;
       } catch (error) {
         console.error('Token inválido:', error);
@@ -128,14 +130,14 @@ export const useAuthStore = defineStore('auth', {
         const response = await authService.updateMe(userData);
         this.user = response.data;
         
-        // Atualizar localStorage
-        localStorage.setItem('agromart_user', JSON.stringify(this.user));
+        // Atualizar backendStorage
+        backendStorage.setItem('agromart_user', JSON.stringify(this.user));
         
         this.loading = false;
         return { success: true, user: this.user };
       } catch (error) {
         this.loading = false;
-        this.error = error.response?.data?.error?.message || 'Erro ao atualizar perfil';
+        this.error = error.response?.data?.error?.message || error.response?.data?.message || error.message || 'Erro ao atualizar perfil';
         console.error('Erro ao atualizar perfil:', error);
         return { success: false, error: this.error };
       }
@@ -152,7 +154,7 @@ export const useAuthStore = defineStore('auth', {
         return { success: true };
       } catch (error) {
         this.loading = false;
-        this.error = error.response?.data?.error?.message || 'Erro ao enviar email';
+        this.error = error.response?.data?.error?.message || error.response?.data?.message || error.message || 'Erro ao enviar email';
         console.error('Erro ao recuperar senha:', error);
         return { success: false, error: this.error };
       }
@@ -177,15 +179,15 @@ export const useAuthStore = defineStore('auth', {
         this.user = user;
         this.isAuthenticated = true;
         
-        // Persistir no localStorage
-        localStorage.setItem('agromart_token', jwt);
-        localStorage.setItem('agromart_user', JSON.stringify(user));
+        // Persistir no backendStorage
+        backendStorage.setItem('agromart_token', jwt);
+        backendStorage.setItem('agromart_user', JSON.stringify(user));
         
         this.loading = false;
         return { success: true };
       } catch (error) {
         this.loading = false;
-        this.error = error.response?.data?.error?.message || 'Erro ao resetar senha';
+        this.error = error.response?.data?.error?.message || error.response?.data?.message || error.message || 'Erro ao resetar senha';
         console.error('Erro ao resetar senha:', error);
         return { success: false, error: this.error };
       }

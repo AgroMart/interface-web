@@ -1,3 +1,4 @@
+import { backendStorage } from '@/services/backend';
 // Utilitários para funcionalidades offline
 // Gerencia cache, sincronização e armazenamento local
 
@@ -51,7 +52,7 @@ export const setupConnectionListeners = (onOnline, onOffline) => {
   };
 };
 
-// Cache de dados no localStorage
+// Cache de dados no backendStorage
 export const cacheManager = {
   // Salvar dados
   set(key, data, expiration = 24 * 60 * 60 * 1000) { // 24 horas por padrão
@@ -60,13 +61,13 @@ export const cacheManager = {
       timestamp: Date.now(),
       expiration,
     };
-    localStorage.setItem(`agromart_${key}`, JSON.stringify(item));
+    backendStorage.setItem(`agromart_${key}`, JSON.stringify(item));
   },
 
   // Buscar dados
   get(key) {
     try {
-      const item = JSON.parse(localStorage.getItem(`agromart_${key}`));
+      const item = JSON.parse(backendStorage.getItem(`agromart_${key}`));
       if (!item) return null;
 
       // Verificar expiração
@@ -84,21 +85,21 @@ export const cacheManager = {
 
   // Remover dados
   remove(key) {
-    localStorage.removeItem(`agromart_${key}`);
+    backendStorage.removeItem(`agromart_${key}`);
   },
 
   // Limpar cache expirado
   cleanup() {
-    const keys = Object.keys(localStorage).filter(key => key.startsWith('agromart_'));
+    const keys = backendStorage.keys();
     keys.forEach(key => {
       try {
-        const item = JSON.parse(localStorage.getItem(key));
+        const item = JSON.parse(backendStorage.getItem(key));
         if (item && Date.now() - item.timestamp > item.expiration) {
-          localStorage.removeItem(key);
+          backendStorage.removeItem(key);
         }
       } catch (error) {
         // Remove itens corrompidos
-        localStorage.removeItem(key);
+        backendStorage.removeItem(key);
       }
     });
   },
@@ -106,9 +107,9 @@ export const cacheManager = {
   // Obter tamanho do cache
   getSize() {
     let size = 0;
-    const keys = Object.keys(localStorage).filter(key => key.startsWith('agromart_'));
+    const keys = backendStorage.keys();
     keys.forEach(key => {
-      size += localStorage.getItem(key).length;
+      size += backendStorage.getItem(key).length;
     });
     return size;
   },
@@ -127,7 +128,7 @@ export const syncManager = {
       retries: 0,
     };
     pending.push(item);
-    localStorage.setItem('agromart_pending_sync', JSON.stringify(pending));
+    backendStorage.setItem('agromart_pending_sync', JSON.stringify(pending));
     
     // Tentar sincronizar imediatamente se online
     if (isOnline()) {
@@ -138,7 +139,7 @@ export const syncManager = {
   // Buscar itens pendentes
   getPendingSync() {
     try {
-      return JSON.parse(localStorage.getItem('agromart_pending_sync') || '[]');
+      return JSON.parse(backendStorage.getItem('agromart_pending_sync') || '[]');
     } catch (error) {
       return [];
     }
@@ -168,7 +169,7 @@ export const syncManager = {
 
     // Remover itens processados
     const remaining = pending.filter(item => !processed.includes(item.id));
-    localStorage.setItem('agromart_pending_sync', JSON.stringify(remaining));
+    backendStorage.setItem('agromart_pending_sync', JSON.stringify(remaining));
   },
 
   // Sincronizar item específico
@@ -282,4 +283,3 @@ export const initOfflineFeatures = () => {
     syncManager.processPendingSync();
   }
 };
-

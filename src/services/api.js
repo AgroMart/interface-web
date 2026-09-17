@@ -1,6 +1,10 @@
+import { isFaas, faasUrl } from './backend';
+import { createFaasServices } from './faas';
+import { backendStorage } from '@/services/backend';
 import axios from 'axios';
 
 const getApiBaseUrl = () => {
+  if (isFaas) return faasUrl;
   if (process.env.VUE_APP_STRAPI_API_URL) {
     return process.env.VUE_APP_STRAPI_API_URL;
   }
@@ -25,7 +29,7 @@ const api = axios.create({
 // Adicionar token JWT nas requisições
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('agromart_token');
+    const token = backendStorage.getItem('agromart_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -259,7 +263,7 @@ export const authService = {
 
   // Atualizar dados do usuário
   updateMe: (userData) => {
-    const userId = JSON.parse(localStorage.getItem('agromart_user'))?.id;
+    const userId = JSON.parse(backendStorage.getItem('agromart_user'))?.id;
     return api.put(`/users/${userId}`, userData);
   },
 
@@ -289,5 +293,10 @@ export const authService = {
   },
 };
 
-export default api;
+if (isFaas) {
+  const faas = createFaasServices(api);
+  Object.assign(apiService, faas.apiService);
+  Object.assign(authService, faas.authService);
+}
 
+export default api;

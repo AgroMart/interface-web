@@ -28,6 +28,15 @@
 
     <!-- Layout principal -->
     <v-main>
+      <v-alert
+        v-if="isFaas"
+        type="info"
+        variant="tonal"
+        class="ma-4"
+      >
+        Modo FaaS em desenvolvimento: use o administrador local para consultar dados.
+        Cadastro, upload, edição e pedidos ainda não estão integrados neste modo.
+      </v-alert>
       <router-view />
     </v-main>
 
@@ -77,6 +86,7 @@ import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAppStore } from './store/app';
 import { useAuthStore } from './store/auth';
+import { isFaas } from './services/backend';
 
 export default {
   name: 'App',
@@ -110,6 +120,7 @@ export default {
     });
 
     return {
+      isFaas,
       appStore,
       mainRoutes,
       currentRoute,
@@ -153,4 +164,3 @@ export default {
   border-top: 1px solid #e0e0e0;
 }
 </style>
-

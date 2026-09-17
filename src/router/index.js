@@ -1,3 +1,4 @@
+import { backendStorage } from '@/services/backend';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
@@ -87,7 +88,7 @@ router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
   
   // Inicializar autenticação se ainda não foi feito
-  if (!authStore.isAuthenticated && localStorage.getItem('agromart_token')) {
+  if (!authStore.isAuthenticated && backendStorage.getItem('agromart_token')) {
     await authStore.initAuth();
   }
   
@@ -107,4 +108,3 @@ router.beforeEach(async (to, from, next) => {
 });
 
 export default router;
-

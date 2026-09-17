@@ -1,3 +1,4 @@
+import { backendStorage } from '@/services/backend';
 import { defineStore } from 'pinia';
 import { apiService } from '../services/api';
 import { useAppStore } from './app';
@@ -9,8 +10,8 @@ export const useBasketStore = defineStore('baskets', {
     loading: false,
     error: null,
     // Cache para uso offline
-    cachedBaskets: JSON.parse(localStorage.getItem('agromart_baskets') || '[]'),
-    lastFetch: localStorage.getItem('agromart_baskets_last_fetch'),
+    cachedBaskets: JSON.parse(backendStorage.getItem('agromart_baskets') || '[]'),
+    lastFetch: backendStorage.getItem('agromart_baskets_last_fetch'),
   }),
 
   getters: {
@@ -159,19 +160,18 @@ export const useBasketStore = defineStore('baskets', {
 
     // Salvar no cache local
     saveToCache() {
-      localStorage.setItem('agromart_baskets', JSON.stringify(this.baskets));
-      localStorage.setItem('agromart_baskets_last_fetch', new Date().toISOString());
+      backendStorage.setItem('agromart_baskets', JSON.stringify(this.baskets));
+      backendStorage.setItem('agromart_baskets_last_fetch', new Date().toISOString());
       this.cachedBaskets = this.baskets;
       this.lastFetch = new Date().toISOString();
     },
 
     // Limpar cache
     clearCache() {
-      localStorage.removeItem('agromart_baskets');
-      localStorage.removeItem('agromart_baskets_last_fetch');
+      backendStorage.removeItem('agromart_baskets');
+      backendStorage.removeItem('agromart_baskets_last_fetch');
       this.cachedBaskets = [];
       this.lastFetch = null;
     },
   },
 });
-

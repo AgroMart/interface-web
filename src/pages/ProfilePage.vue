@@ -451,6 +451,7 @@
 </template>
 
 <script>
+import { backendStorage } from '@/services/backend';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import DefaultLayout from '../layouts/DefaultLayout.vue';
@@ -574,8 +575,8 @@ export default {
 
     // Salvar configurações
     const saveSettings = () => {
-      // Salvar configurações no localStorage
-      localStorage.setItem('agromart_settings', JSON.stringify(settings.value));
+      // Salvar configurações no backendStorage
+      backendStorage.setItem('agromart_settings', JSON.stringify(settings.value));
       appStore.showSnackbar('Configurações salvas!', 'success');
     };
 
@@ -610,7 +611,7 @@ export default {
       productStore.clearCache();
       storeStore.clearCache();
       basketStore.clearCache();
-      localStorage.removeItem('agromart_settings');
+      backendStorage.removeItem('agromart_settings');
       appStore.showSnackbar('Cache limpo com sucesso!', 'success');
     };
 
@@ -646,7 +647,7 @@ export default {
 
     onMounted(() => {
       // Carregar configurações salvas
-      const savedSettings = localStorage.getItem('agromart_settings');
+      const savedSettings = backendStorage.getItem('agromart_settings');
       if (savedSettings) {
         settings.value = { ...settings.value, ...JSON.parse(savedSettings) };
       }
@@ -692,4 +693,3 @@ export default {
   margin: 0 auto;
 }
 </style>
-

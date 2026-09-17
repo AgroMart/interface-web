@@ -1,4 +1,5 @@
-import api from './api';
+import api, { apiService } from './api';
+import { isFaas } from './backend';
 
 
 const endpoint = '/produtos-avulsos';
@@ -35,3 +36,9 @@ export const productsService = {
   },
 
 };
+
+if (isFaas) Object.assign(productsService, {
+  getProducts: apiService.getProducts, getProduct: apiService.getProduct,
+  createProduct: apiService.createProduct, updateProduct: apiService.updateProduct,
+  deleteProduct: apiService.deleteProduct,
+});

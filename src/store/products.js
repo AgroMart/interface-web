@@ -1,3 +1,4 @@
+import { backendStorage } from '@/services/backend';
 import { defineStore } from 'pinia';
 // import { apiService } from '../services/api'
 import { productsService } from '../services/products';
@@ -10,8 +11,8 @@ export const useProductStore = defineStore('products', {
     loading: false,
     error: null,
     // Cache para uso offline
-    cachedProducts: JSON.parse(localStorage.getItem('agromart_products') || '[]'),
-    lastFetch: localStorage.getItem('agromart_products_last_fetch'),
+    cachedProducts: JSON.parse(backendStorage.getItem('agromart_products') || '[]'),
+    lastFetch: backendStorage.getItem('agromart_products_last_fetch'),
   }),
 
   getters: {
@@ -160,19 +161,18 @@ export const useProductStore = defineStore('products', {
 
     // Salvar no cache local
     saveToCache() {
-      localStorage.setItem('agromart_products', JSON.stringify(this.products));
-      localStorage.setItem('agromart_products_last_fetch', new Date().toISOString());
+      backendStorage.setItem('agromart_products', JSON.stringify(this.products));
+      backendStorage.setItem('agromart_products_last_fetch', new Date().toISOString());
       this.cachedProducts = this.products;
       this.lastFetch = new Date().toISOString();
     },
 
     // Limpar cache
     clearCache() {
-      localStorage.removeItem('agromart_products');
-      localStorage.removeItem('agromart_products_last_fetch');
+      backendStorage.removeItem('agromart_products');
+      backendStorage.removeItem('agromart_products_last_fetch');
       this.cachedProducts = [];
       this.lastFetch = null;
     },
   },
 });
-

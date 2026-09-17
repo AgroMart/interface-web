@@ -1,3 +1,4 @@
+import { backendStorage } from '@/services/backend';
 import { defineStore } from 'pinia';
 import { apiService } from '../services/api';
 import { useAppStore } from './app';
@@ -9,8 +10,8 @@ export const useStoreStore = defineStore('stores', {
     loading: false,
     error: null,
     // Cache para uso offline
-    cachedStores: JSON.parse(localStorage.getItem('agromart_stores') || '[]'),
-    lastFetch: localStorage.getItem('agromart_stores_last_fetch'),
+    cachedStores: JSON.parse(backendStorage.getItem('agromart_stores') || '[]'),
+    lastFetch: backendStorage.getItem('agromart_stores_last_fetch'),
   }),
 
   getters: {
@@ -112,19 +113,18 @@ export const useStoreStore = defineStore('stores', {
 
     // Salvar no cache local
     saveToCache() {
-      localStorage.setItem('agromart_stores', JSON.stringify(this.stores));
-      localStorage.setItem('agromart_stores_last_fetch', new Date().toISOString());
+      backendStorage.setItem('agromart_stores', JSON.stringify(this.stores));
+      backendStorage.setItem('agromart_stores_last_fetch', new Date().toISOString());
       this.cachedStores = this.stores;
       this.lastFetch = new Date().toISOString();
     },
 
     // Limpar cache
     clearCache() {
-      localStorage.removeItem('agromart_stores');
-      localStorage.removeItem('agromart_stores_last_fetch');
+      backendStorage.removeItem('agromart_stores');
+      backendStorage.removeItem('agromart_stores_last_fetch');
       this.cachedStores = [];
       this.lastFetch = null;
     },
   },
 });
-
