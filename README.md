@@ -91,6 +91,18 @@ agromart-frontend/
 
 ## Instalação e Configuração
 
+### Teste com a API FaaS implantada na AWS
+
+Na branch `feature/faas-access-control`, use o modo FaaS e a URL da stack de teste. Execute na raiz deste repositório:
+
+```bash
+VUE_APP_BACKEND_MODE=faas \
+VUE_APP_FAAS_API_URL=https://ik6likll8d.execute-api.sa-east-1.amazonaws.com/dev \
+npm run serve -- --port 5173
+```
+
+Abra `http://localhost:5173`. A origem precisa corresponder ao `FRONTEND_ORIGIN` configurado na API AWS. Esse comando não muda o frontend hospedado nem grava a URL no Git. O login requer um administrador criado na stack; cadastro, upload e operações de escrita ainda não estão habilitados no modo FaaS. As requisições podem gerar cobrança na conta AWS da stack de teste.
+
 ### Pré-requisitos
 - Node.js 16+ 
 - npm ou yarn
@@ -255,4 +267,3 @@ VUE_APP_ENVIRONMENT=production
 Este projeto está licenciado sob a licença GNU General Public License v3 (GPL-3.0). Veja o arquivo LICENSE para mais detalhes.
 
 ---
-
