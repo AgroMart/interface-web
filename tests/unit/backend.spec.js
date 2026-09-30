@@ -1,12 +1,17 @@
 describe('Backend configuration and storage', () => {
   const originalMode = process.env.VUE_APP_BACKEND_MODE;
   const originalUrl = process.env.VUE_APP_FAAS_API_URL;
-  beforeEach(() => { jest.resetModules(); localStorage.clear(); });
+  beforeEach(() => {
+    jest.resetModules();
+    localStorage.clear();
+    delete window.__AGROMART_CONFIG__;
+  });
   afterEach(() => {
     if (originalMode === undefined) delete process.env.VUE_APP_BACKEND_MODE;
     else process.env.VUE_APP_BACKEND_MODE = originalMode;
     if (originalUrl === undefined) delete process.env.VUE_APP_FAAS_API_URL;
     else process.env.VUE_APP_FAAS_API_URL = originalUrl;
+    delete window.__AGROMART_CONFIG__;
   });
   it('defaults to Strapi and preserves its storage keys', () => {
     delete process.env.VUE_APP_BACKEND_MODE;
@@ -32,5 +37,17 @@ describe('Backend configuration and storage', () => {
     expect(second.keys()).toEqual([]);
     first.removeItem('agromart_token');
     expect(localStorage.getItem('agromart_token')).toBe('strapi-test');
+  });
+  it('prefers deployment runtime configuration over build-time variables', () => {
+    process.env.VUE_APP_BACKEND_MODE = 'strapi';
+    process.env.VUE_APP_FAAS_API_URL = 'https://build.example.test';
+    window.__AGROMART_CONFIG__ = {
+      backendMode: 'faas',
+      faasApiUrl: 'https://runtime.example.test/dev/',
+    };
+    const { backendMode, faasUrl, isFaas } = require('@/services/backend');
+    expect(backendMode).toBe('faas');
+    expect(isFaas).toBe(true);
+    expect(faasUrl).toBe('https://runtime.example.test/dev');
   });
 });
