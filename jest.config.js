@@ -6,10 +6,12 @@ module.exports = {
       'jest-transform-stub',
     '^.+\\.jsx?$': 'babel-jest',
   },
-  transformIgnorePatterns: ['/node_modules/'],
+  // O Vuetify é distribuído como ESM e precisa ser transformado pelo Babel
+  transformIgnorePatterns: ['/node_modules/(?!vuetify/)'],
   moduleFileExtensions: ['vue', 'js', 'json', 'jsx', 'ts', 'tsx', 'node'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '\\.(css|sass|scss)$': 'jest-transform-stub',
   },
   testMatch: [
     '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)',
@@ -19,7 +21,6 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{js,vue}',
     '!src/main.js',
-    '!src/router/index.js',
     '!**/node_modules/**',
     '!**/dist/**',
   ],
