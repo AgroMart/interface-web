@@ -13,6 +13,7 @@ export const createTestRouter = () => createRouter({
     { path: '/produtos', name: 'Produtos', component: page('Produtos'), meta: { title: 'Meus Produtos' } },
     { path: '/cestas', name: 'Cestas', component: page('Cestas'), meta: { title: 'Cestas' } },
     { path: '/pedidos', name: 'Pedidos', component: page('Pedidos'), meta: { title: 'Pedidos' } },
+    { path: '/loja', name: 'Loja', component: page('Loja'), meta: { title: 'Minha Loja' } },
     { path: '/perfil', name: 'Perfil', component: page('Perfil'), meta: { title: 'Meu Perfil' } },
     { path: '/sem-titulo', name: 'SemTitulo', component: page('SemTitulo') },
   ],
